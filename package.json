@@ -1,13 +1,14 @@
 {
   "name": "brek",
+  "private": false,
   "version": "0.0.0-autorel",
   "description": "A simple, typed, and structured node/deno/bun config library with dynamic loading for things like AWS Secrets Manager. Written in Typescript.",
   "license": "MIT",
   "author": "Marc H. Weiner <mhweiner234@gmail.com> (https://mhweiner.com)",
   "main": "./dist/index.js",
   "bin": {
-    "lambdaconf": "./bin/cli.js",
-    "brek": "./bin/cli.js"
+    "lambdaconf": "bin/cli.js",
+    "brek": "bin/cli.js"
   },
   "types": "dist/index.d.ts",
   "files": [
@@ -20,7 +21,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/mhweiner/brek.git"
+    "url": "git+https://github.com/mhweiner/brek.git"
   },
   "scripts": {
     "prepare": "npm run build",
