@@ -6,7 +6,7 @@
 
 **Brek** stands for **B**locking **R**esolution of **E**nvironment **K**eys.
 
-It is a simple, typed, and structured node/deno/bun config library with dynamic loading for things like AWS Secrets Manager. Written in Typescript. Sponsored by [Aeroview](https://aeroview.io).
+Brek is a powerful yet simple configuration library for Node.js, Deno, and Bun (server-only). It’s structured, typed, and designed for dynamic configuration loading, making it perfect for securely managing secrets (e.g., AWS Secrets Manager). Written in TypeScript for safety and ease of use. Sponsored by [Aeroview](https://aeroview.io).
 
 **🔒 Out-of-the-box Typescript support**
 - Turn your runtime errors into safer compile-time errors! Automatically generated Typescript type definition for configuration object
