@@ -289,26 +289,34 @@ LAMBDA_CONF_DEBUG=1 ts-node src/index.ts
 
 1. Some IDEs (particularly IntelliJ/Webstorm) occasionally have some issues with caching of the generated `Conf.d.ts file` (which is stored in your `conf` folder). If you run into this problem, restarting your TS service.
 
-# Support, Feedback, and Contributions
+# Support, feedback, and contributions
 
 - Star this repo if you like it!
-- Submit an [issue](https://github.com/mhweiner/brek/issues) with your problem, feature request or bug report
+- Submit an [issue](https://github.com/mhweiner/autorel/issues) with your problem, feature request or bug report
 - Issue a PR against `main` and request review. Make sure all tests pass and coverage is good.
-- Write about `lambdaconf` in your blog, tweet about it, or share it with your friends!
+- Write about this project in your blog, tweet about it, or share it with your friends!
 
 # Sponsorship
 
-Want to sponsor this project? [Reach out to me via email](mailto:mhweiner234@gmail.com?subject=I%20want%20to%20sponsor%20cjs-mock).
-
 <picture>
-    <source srcset="docs/aeroview-logo-lockup-dark.svg" media="(prefers-color-scheme: dark)">
-    <source srcset="docs/aeroview-logo-lockup.svg" media="(prefers-color-scheme: light)">
-    <img src="docs/aeroview-logo-lockup.svg" alt="Logo" style="max-width: 150px;margin: 0 0 10px">
+    <source srcset="https://qhg29tyl98-av-www-dev1.s3.us-east-2.amazonaws.com/app-frontend/images/aeroview-white.svg" media="(prefers-color-scheme: dark)">
+    <source srcset="https://qhg29tyl98-av-www-dev1.s3.us-east-2.amazonaws.com/app-frontend/images/aeroview-black.svg" media="(prefers-color-scheme: light)">
+    <img src="https://qhg29tyl98-av-www-dev1.s3.us-east-2.amazonaws.com/app-frontend/images/aeroview-black.svg" alt="Logo" height="20">
 </picture>
+<br><br>
 
 Aeroview is a lightning-fast, developer-friendly, and AI-powered logging IDE. Get started for free at [https://aeroview.io](https://aeroview.io).
 
+Want to sponsor this project? [Reach out](mailto:mhweiner234@gmail.com?subject=I%20want%20to%20sponsor%20brek).
+
+# Other useful libraries
+
+- [autorel](https://github.com/mhweiner/autorel): Automate semantic releases based on conventional commits. Similar to semantic-release but much simpler.
+- [hoare](https://github.com/mhweiner/hoare): An easy-to-use, fast, and defensive JS/TS test runner designed to help you to write simple, readable, and maintainable tests.
+- [jsout](https://github.com/mhweiner/jsout): A Syslog-compatible, small, and simple logger for Typescript/Javascript projects.
+- [cjs-mock](https://github.com/mhweiner/cjs-mock): NodeJS module mocking for CJS (CommonJS) modules for unit testing purposes.
+- [typura](https://github.com/aeroview/typura): Simple and extensible runtime input validation for TS/JS, written in TS.
+
 # License
 
-MIT &copy; Marc H. Weiner
-[See full license](LICENSE)
+[MIT](LICENSE)
