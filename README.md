@@ -104,7 +104,7 @@ To run this manually, you can run `npx brek`. This will generate the `Conf.d.ts`
 
 You can also use [loaders](#loaders) or [environment variables](#environment-variables-in-config-files).
 
-## Configuration Rules
+## Configuration rules
 
 - `default.json` is required, everything else is optional. Recommended practice is that `default.json` contains all of your "local development" settings.
 
@@ -135,7 +135,7 @@ loadConf().then(() => {
 }).catch(console.log.bind(console));
 ```
 
-## Getting the Config Object
+## Getting the config object
 
 Once loaded, use `getConf` to access:
 
@@ -155,7 +155,7 @@ If you need the type interface, you can import it:
 import {Conf} from "brek";
 ```
 
-## Configuration Merge Strategy
+## Configuration merge strategy
 
 Configurations are merged in this order, with the later ones overriding the earlier ones:
  
@@ -163,7 +163,7 @@ Configurations are merged in this order, with the later ones overriding the earl
 2. environment file
 3. deployment file
 4. user file
-5. CLI overrides
+5. CLI/env overrides
 
 Which of these sources to choose depends on the presence of certain `process.env` configuration variables:
 
@@ -182,7 +182,7 @@ A few notes:
 - [Loaders](#loaders) parameters are simply replaced, not merged. A `loader` instance is treated as a primitive.
 - Arrays are simply replaced, not merged.
 
-## Using CLI/ENV Overrides
+## Using CLI/env overrides
 
 You can use the `BREK` (`OVERRIDE` has been deprecated) environment variable to override properties via CLI/ENV. `BREK` must be valid JSON. Example:
 
@@ -208,7 +208,7 @@ This is especially useful if you want to make use of environment variables (noti
 
 ⚠️ _Use caution! CLI overrides are not checked by Typescript's static type checking, and there is currently no runtime type checking feature. Feel free to submit an issue or PR if you want this._
 
-## Environment Variables in Config Files
+## Environment variables in config files
 
 You can use environment variables as values by wrapping it in `${...}`. For example, to use environment variable `FOO`, use `${FOO}`. This will translate to `process.env.FOO`. These will always be typed as strings. Example config file:
 
@@ -268,7 +268,7 @@ import type {Loader} from 'brek';
 
 In a conf file, any object with a single property matching the pattern `/^\[.*\]$/` (`[...]`) is assumed to call a loader. If a matching loader is not found, it will throw a `LoaderNotFound` error.
 
-# Recommended Best Practices
+# Recommended best practices
 
 - `default.json` should contain all of your local development settings, and then "progressively enhance" from there.
 - Include `loadConf().then(...)` or `await loadConf()` in your startup process before your server starts listening (ie, before `app.listen()`).
@@ -285,7 +285,7 @@ LAMBDA_CONF_DEBUG=1 ts-node src/index.ts
 
 > Use with caution! This may output sensitive information to the console.
 
-# Known Issues
+# Known issues
 
 1. Some IDEs (particularly IntelliJ/Webstorm) occasionally have some issues with caching of the generated `Conf.d.ts file` (which is stored in your `conf` folder). If you run into this problem, restarting your TS service.
 
