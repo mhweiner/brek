@@ -1,4 +1,4 @@
-# brek
+# brek (formerly lambdaconf)
 
 [![build status](https://github.com/mhweiner/lambdaconf/actions/workflows/release.yml/badge.svg)](https://github.com/mhweiner/lambdaconf/actions)
 [![SemVer](https://img.shields.io/badge/SemVer-2.0.0-blue)]()
@@ -99,30 +99,6 @@ Whenever your configuration changes, you'll need to run the `brek` executable to
 To run this manually, you can run `npx brek`. This will generate the `Conf.d.ts` file in your `conf` folder.
 
 You can also use [loaders](#loaders) or [environment variables](#environment-variables-in-config-files).
-
-#### Migration from `lambdaconf`
-
-To migrate, simply replace `lambdaconf` with `brek` in your `package.json`:
-```bash
-npm uninstall lambdaconf
-npm install brek
-
-# Usage
-
-## Example Configuration File
-
-_conf/default.json_
-```json
-{
-  "foo": "bar",
-  "fruits": ["apples", "oranges"],
-  "thingEnabled": false,
-  "maxFruits": 123,
-  "wow": {
-    "foo": "bar"
-  }
-}
-```
 
 ## Configuration Rules
 
