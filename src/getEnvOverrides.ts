@@ -3,15 +3,15 @@ import {toResult} from './lib/toResult';
 
 export function getEnvOverrides(): Record<string, any> {
 
-    const overrides = process.env.OVERRIDE;
+    const cliOverrides = process.env.BREK || process.env.OVERRIDE;
 
-    if (overrides) {
+    if (cliOverrides) {
 
-        const [err, json] = toResult(() => JSON.parse(overrides));
+        const [err, json] = toResult(() => JSON.parse(cliOverrides));
 
         if (err) {
 
-            throw new InvalidConf(['process.env.OVERRIDE is not valid JSON']);
+            throw new InvalidConf(['CLI overrides (BREK/OVERRIDE) is not valid JSON']);
 
         }
 

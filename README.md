@@ -187,33 +187,34 @@ Configurations are merged in this order, with the later ones overriding the earl
 
 Which of these sources to choose depends on the presence of certain `process.env` configuration variables:
 
-| **process.env**     | **conf file**                         |
-| ------------------- | --------------------------------------|
-| `NODE_ENV`          | `/conf/environments/[NODE_ENV].json`  |
-| `DEPLOYMENT`        | `/conf/deployments/[DEPLOYMENT].json` |
-| `USER`              | `/conf/users/[USER].json`             |
-| `OVERRIDE`          | N/A                                   |
+| **process.env**         | **conf file**                         |
+| ----------------------- | --------------------------------------|
+| `NODE_ENV`              | `/conf/environments/[NODE_ENV].json`  |
+| `DEPLOYMENT`            | `/conf/deployments/[DEPLOYMENT].json` |
+| `USER`                  | `/conf/users/[USER].json`             |
+| `BREK`                  | N/A                                   |
+| `OVERRIDE` (deprecated) | N/A                                   |
 
 A few notes:
 
-- `OVERRIDE` must be valid JSON. [Learn more](#using-cli-overrides)
+- `BREK` must be valid JSON. [Learn more](#using-cli-overrides)
 - `USER` is usually provided by default by UNIX environments (try `console.log(process.env.USER)`)
 - [Loaders](#loaders) parameters are simply replaced, not merged. A `loader` instance is treated as a primitive.
 - Arrays are simply replaced, not merged.
 
-## Using CLI Overrides
+## Using CLI/ENV Overrides
 
-You can use the `OVERRIDE` environment variable to override properties via CLI. `OVERRIDE` must be valid JSON. Example:
+You can use the `BREK` (`OVERRIDE` has been deprecated) environment variable to override properties via CLI/ENV. `BREK` must be valid JSON. Example:
 
 ```shell script
-OVERRIDE="{\"a\": {\"b\": \"q\"}}" ts-node src/index.ts
+BREK="{\"a\": {\"b\": \"q\"}}" ts-node src/index.ts
 ```
 
 When using with npm scripts, it might be useful to use command substitution like so:
 
 ```json
 {
-   "start": "OVERRIDE=$(echo '{\"postgres\": \"localhost\"}') ts-node src/index.ts"
+   "start": "BREK=$(echo '{\"postgres\": \"localhost\"}') ts-node src/index.ts"
 }
 ```
 
@@ -221,7 +222,7 @@ This is especially useful if you want to make use of environment variables (noti
 
 ```json
 {
-   "start": "OVERRIDE=$(echo '{\"postgres\": \"'$DATABASE_URL'\"}') ts-node src/index.ts"
+   "start": "BREK=$(echo '{\"postgres\": \"'$DATABASE_URL'\"}') ts-node src/index.ts"
 }
 ```
 
