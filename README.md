@@ -1,4 +1,6 @@
-# brek (formerly lambdaconf)
+# brek
+
+(formerly lambdaconf)
 
 [![build status](https://github.com/mhweiner/lambdaconf/actions/workflows/release.yml/badge.svg)](https://github.com/mhweiner/lambdaconf/actions)
 [![SemVer](https://img.shields.io/badge/SemVer-2.0.0-blue)]()
