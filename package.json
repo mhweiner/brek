@@ -1,7 +1,7 @@
 {
   "name": "brek",
   "private": false,
-  "version": "2.0.20",
+  "version": "0.0.0-autorel",
   "description": "A simple, typed, and structured node/deno/bun config library with dynamic loading for things like AWS Secrets Manager. Written in Typescript.",
   "license": "MIT",
   "author": "Marc H. Weiner <mhweiner234@gmail.com> (https://mhweiner.com)",
