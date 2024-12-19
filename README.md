@@ -96,9 +96,11 @@ Whenever your configuration changes, you'll need to run the `brek` executable to
   }
   ```
 
-To run this manually, you can run `npx brek`.
+To run this manually, you can run `npx brek`. This will generate the `Conf.d.ts` file in your `conf` folder.
 
-## Migration from `lambdaconf`
+You can also use [loaders](#loaders) or [environment variables](#environment-variables-in-config-files).
+
+#### Migration from `lambdaconf`
 
 To migrate, simply replace `lambdaconf` with `brek` in your `package.json`:
 ```bash
@@ -121,8 +123,6 @@ _conf/default.json_
   }
 }
 ```
-
-You can also use [loaders](#loaders) or [environment variables](#environment-variables-in-config-files).
 
 ## Configuration Rules
 
