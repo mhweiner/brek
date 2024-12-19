@@ -31,7 +31,7 @@ Brek is a powerful yet simple configuration library for Node.js, Deno, and Bun (
 
 **🤖 Dynamic loading**
 - Great for AWS Secrets Manager, AWS Parameter Store, HashiCorp Vault, or custom dynamic runtime functions
-- Any custom logic can go here, keeping your config files logic-free
+- Any custom logic lives in [loaders](#loaders), keeping your config files logic-free
 - Provides an easy sharable and reusable plugin interface for sharing or re-use
 
 # Installation & Setup
