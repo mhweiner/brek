@@ -1,61 +1,41 @@
-<picture>
-    <source srcset="docs/lambdaconf.svg" media="(prefers-color-scheme: dark)">
-    <source srcset="docs/lambdaconf-dark.svg" media="(prefers-color-scheme: light)">
-    <img src="docs/lambdaconf-dark.svg" alt="lambdaconf" style="margin: 0 0 10px">
-</picture>
-
----
+# brek
 
 [![build status](https://github.com/mhweiner/lambdaconf/actions/workflows/release.yml/badge.svg)](https://github.com/mhweiner/lambdaconf/actions)
 [![SemVer](https://img.shields.io/badge/SemVer-2.0.0-blue)]()
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 
-A small, yet powerful typed and structured config library with lambda support for things like AWS Secrets Manager. Written in Typescript. Sponsored by [Aeroview](https://aeroview.io).
+**Brek** stands for **B**locking **R**esolution of **E**nvironment **K**eys.
+
+It is a simple, typed, and structured node/deno/bun config library with dynamic loading for things like AWS Secrets Manager. Written in Typescript. Sponsored by [Aeroview](https://aeroview.io).
 
 **🔒 Out-of-the-box Typescript support**
 - Turn your runtime errors into safer compile-time errors! Automatically generated Typescript type definition for configuration object
+- Any override must satisfy `Partial<DefaultConfig>` type, or it will throw a Typescript error
 
-**😃 Simple & Easy to Use**
+**😃 Simple, easy-to-use, safe, and stable**
 - All settings are in simple, easily readable & logic free `.json` files.
-- Highly structured. Any override must satisfy `Partial<DefaultConfig>`
 - Enforces a simple and sensible folder structure
 - Limited yet powerful feature set with clean documentation
 - Small, simple, and modular codebase written in Typescript with no dependencies.
 
-**💪 Flexible & Powerful**
+**💪 Flexible & powerful**
 - Provides for overrides via CLI without polluting the CLI argument namespace
 - Differentiates between concepts such as `environment`, `deployment`, and `user` and provides an out-of-the-box
   solution with sensible merge strategy
 - Fast. Runtime processing is done during app initialization only.
 - Put [environment variables](#environment-variables-in-config-files) directly into .json files
 
-**🤖 Lambda Support**
-- Works with AWS Secrets Manager, AWS Parameter Store, HashiCorp Vault, or custom dynamic lambda functions
+**🤖 Dynamic loading**
+- Great for AWS Secrets Manager, AWS Parameter Store, HashiCorp Vault, or custom dynamic runtime functions
 - Any custom logic can go here, keeping your config files logic-free
 - Provides an easy sharable and reusable plugin interface for sharing or re-use
-
-# Table of Contents
-
-- [Installation & Setup](#installation--setup)
-- [Usage](#usage)
-  - [Example Configuration File](#example-configuration-file)
-  - [Configuration Rules](#configuration-rules)
-  - [Loading the Configuration](#loading-the-configuration)
-  - [Getting the Config Object](#getting-the-config-object)
-  - [Configuration Merge Strategy](#configuration-merge-strategy)
-  - [Using CLI overrides](#using-cli-overrides)
-  - [Loaders](#loaders)
-  - [Debugging](#debugging)
-- [Recommended Best Practices](#recommended-best-practices)
-- [Known Issues](#known-issues)
-- [Contribution](#contribution)
 
 # Installation & Setup
 
 ## 1. Install from `npm`
 
 ```shell
-npm i lambdaconf
+npm i brek
 ```
 
 ## 2. Create `conf` directory
@@ -104,19 +84,26 @@ Make sure the generated `conf/Conf.d.ts` file will be picked up by your Typescri
 }
 ```
 
-## 5. Call `lambdaconf` 
+## 5. Call `brek` when your configuration changes
 
-Whenever your configuration changes, you'll need to run the `lambdaconf` executable to build the type declaration file. One option is to add the following to your `package.json` file:
+Whenever your configuration changes, you'll need to run the `brek` executable to build the type declaration file. One option is to add the following to your `package.json` file:
     
   ```json
   {
     "scripts": {
-      "prepare": "lambdaconf"
+      "prepare": "brek"
     }
   }
   ```
 
-To run this manually, you can run `npx lambdaconf`.
+To run this manually, you can run `npx brek`.
+
+## Migration from `lambdaconf`
+
+To migrate, simply replace `lambdaconf` with `brek` in your `package.json`:
+```bash
+npm uninstall lambdaconf
+npm install brek
 
 # Usage
 
@@ -158,7 +145,7 @@ We <b>strongly</b> recommend you call `loadConf()` before your app starts, ie, d
 Either way, the configuration will only load once, as it will be cached.
 
 ```typescript
-import {loadConf, getConf} from "lambdaconf";
+import {loadConf, getConf} from "brek";
 
 loadConf().then(() => {
 
@@ -173,7 +160,7 @@ loadConf().then(() => {
 Once loaded, use `getConf` to access:
 
 ```typescript
-import {getConf} from "lambdaconf";
+import {getConf} from "brek";
 
 const conf = getConf(); // type of Conf is inferred
 
@@ -185,7 +172,7 @@ const isFooBarEnabled: boolean = conf.foo.bar; // Typescript error if does not e
 If you need the type interface, you can import it:
 
 ```typescript
-import {Conf} from "lambdaconf";
+import {Conf} from "brek";
 ```
 
 ## Configuration Merge Strategy
@@ -252,7 +239,7 @@ You can use environment variables as values by wrapping it in `${...}`. For exam
 
 ## Loaders
 
-Loaders are lambda functions (the real kind, not AWS Lambdas 😛) that are called during startup (run-time). A great example of this is fetching API keys from AWS Secrets Manager.
+Loaders are custom functions that are called during startup (run-time). This can be used to do anyting, such as fetching secrets from AWS Secrets Manager, or any other dynamic runtime operation.
 
 Loaders are run once during the type declaration build step (compile-time), and once while the configuration is loading (run-time). They can be normal functions or use async/await/Promise.
 
@@ -274,7 +261,7 @@ _conf/default.json_
 _index.ts_
 
 ```typescript
-import {loadConfig, getConf} from "lambdaconf";
+import {loadConfig, getConf} from "brek";
 
 const loaders = {
     foo: (params: {a: string}) => Promise.resolve(`foo_${a}`),
@@ -295,7 +282,7 @@ loadConfig(loaders)
 Loader functions must extend `(params: any) => any`. If helpful, you can import the `Loader` type like so:
 
 ```typescript
-import type {Loader} from 'lambdaconf';
+import type {Loader} from 'brek';
 ```
 
 In a conf file, any object with a single property matching the pattern `/^\[.*\]$/` (`[...]`) is assumed to call a loader. If a matching loader is not found, it will throw a `LoaderNotFound` error.
@@ -315,7 +302,7 @@ You can set the `LAMBDA_CONF_DEBUG` environment variable to see debug output. Ex
 LAMBDA_CONF_DEBUG=1 ts-node src/index.ts
 ```
 
-> ‼️ Use with caution! This may output sensitive information to the console.
+> Use with caution! This may output sensitive information to the console.
 
 # Known Issues
 
@@ -324,7 +311,7 @@ LAMBDA_CONF_DEBUG=1 ts-node src/index.ts
 # Support, Feedback, and Contributions
 
 - Star this repo if you like it!
-- Submit an [issue](https://github.com/mhweiner/lambdaconf/issues) with your problem, feature request or bug report
+- Submit an [issue](https://github.com/mhweiner/brek/issues) with your problem, feature request or bug report
 - Issue a PR against `main` and request review. Make sure all tests pass and coverage is good.
 - Write about `lambdaconf` in your blog, tweet about it, or share it with your friends!
 

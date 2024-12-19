@@ -1,12 +1,13 @@
 {
-  "name": "lambdaconf",
-  "version": "2.0.17",
-  "description": "A small, yet powerful typed and structured config library with lambda support for things like AWS Secrets Manager. Written in Typescript.",
+  "name": "brek",
+  "version": "0.0.0-autorel",
+  "description": "A simple, typed, and structured node/deno/bun config library with dynamic loading for things like AWS Secrets Manager. Written in Typescript.",
   "license": "MIT",
   "author": "Marc H. Weiner <mhweiner234@gmail.com> (https://mhweiner.com)",
   "main": "./dist/index.js",
   "bin": {
-    "lambdaconf": "./bin/cli.js"
+    "lambdaconf": "./bin/cli.js",
+    "brek": "./bin/cli.js"
   },
   "types": "dist/index.d.ts",
   "files": [
@@ -19,7 +20,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/mhweiner/lambdaconf.git"
+    "url": "https://github.com/mhweiner/brek.git"
   },
   "scripts": {
     "prepare": "npm run build",
@@ -27,7 +28,7 @@
     "lint": "eslint ./ --ext .js,.ts",
     "build": "tsc"
   },
-  "homepage": "https://github.com/mhweiner/lambdaconf",
+  "homepage": "https://github.com/mhweiner/brek",
   "keywords": [
     "config",
     "configuration",
@@ -48,7 +49,8 @@
     "node-config",
     "ts-config-node",
     "ts-node-config",
-    "node-config-ts"
+    "node-config-ts",
+    "lambdaconf"
   ],
   "devDependencies": {
     "@types/node": "^17.0.0",
