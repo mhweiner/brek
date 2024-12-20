@@ -40,4 +40,4 @@ export function getConf(): Conf {
 
 }
 
-export * from './writeConfFile';
+export * from './writeTypeDef';

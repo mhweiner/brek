@@ -3,7 +3,7 @@ import {getConfDir} from './getConfDir';
 import {generateTypeDef} from './generateTypeDef';
 import {loadConfFile} from './loadConfFile';
 
-export async function writeConfFile(): Promise<void> {
+export function writeTypeDef(): void {
 
     const defaultConfig = loadConfFile('/default.json');
     const filepath = `${getConfDir()}/Conf.d.ts`;
