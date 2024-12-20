@@ -35,13 +35,13 @@ Brek is a powerful yet simple configuration library for Node.js. It’s structur
 
 # Installation & Setup
 
-### 1. Install from `npm`
+## 1. Install from `npm`
 
 ```shell
 npm i brek
 ```
 
-### 2. Create `conf` directory
+## 2. Create `conf` directory
 
 Create a directory called `conf` in the root of your project. This is where your configuration will go, along with the generated Conf.d.ts TypeScript Declaration File. 
 
@@ -64,7 +64,7 @@ root/
 
 At a minimum, `default.json` is required at the root of your `conf` folder. To learn more about the other folders, see [merge strategy](#configuration-merge-strategy) and [configuration rules](#configuration-rules)
 
-### 3. Create your configuration files
+## 3. Create your configuration files
 
 Here's a simple example:
 
@@ -85,7 +85,7 @@ __default.json__
 
 See [full configuration rules](#configuration-rules), [merge strategy](#configuration-overrides-and-merge-strategy), and reference the example folder structure above. At a minimum, `default.json` is required at the root of your `conf` folder. 
 
-### 4. Typescript Configuration (tsconfig.json)
+## 4. Typescript Configuration (tsconfig.json)
 
 Make sure the generated `conf/Conf.d.ts` file will be picked up by your Typescript parser. One way to do this is by including it in your `include` directive like so:
 
@@ -104,7 +104,7 @@ Make sure the generated `conf/Conf.d.ts` file will be picked up by your Typescri
 }
 ```
 
-### 5. Call `brek` when your configuration changes to generate the type declaration file
+## 5. Call `brek` when your configuration changes to generate the type declaration file
 
 Whenever your `default.json` configuration changes, you'll need to run the `brek` command to build the type declaration file. For example, you could add the following to your `package.json` file:
     
@@ -120,7 +120,11 @@ To run this manually, you can run `npx brek generate-type`. This will generate t
 
 You can also use [loaders](#loaders) or [environment variables](#environment-variables-in-config-files).
 
-## Configuration rules
+## 6. Optional: Add generated files to `.gitignore`
+
+You may want to add `conf/Conf.d.ts` and `conf/conf.json` to your `.gitignore` file to prevent them from being checked into source control.
+
+# Configuration rules
 
 - `default.json` is required, everything else is optional. Recommended practice is that `default.json` contains all of your "local development" settings.
 
@@ -132,7 +136,7 @@ You can also use [loaders](#loaders) or [environment variables](#environment-var
 
 - Arrays should be homogenous (not of mixed types).
 
-## Loading the Configuration
+# Loading the Configuration
 
 You must first *load* the configuration, which loads the files from disk, does the merge, and resolves any [loaders](#loaders). You have to options:
 
@@ -150,7 +154,7 @@ You must first *load* the configuration, which loads the files from disk, does t
 
 Or you can use `npx`.
 
-## Getting the config object
+# Getting the config object
 
 Once loaded, use `getConf` to access the configuration object. The configuration is cached after the first load, so you can call `getConf` as many times as you want without worrying about performance.
 
@@ -174,7 +178,7 @@ If you need the type interface, you can import it:
 import {Conf} from "brek";
 ```
 
-## Configuration merge strategy
+# Configuration merge strategy
 
 Configurations are merged in this order, with the later ones overriding the earlier ones:
  
@@ -201,7 +205,7 @@ A few notes:
 - [Loaders](#loaders) parameters are simply replaced, not merged. A `loader` instance is treated as a primitive.
 - Arrays are simply replaced, not merged.
 
-## Using CLI/env overrides
+# Using CLI/env overrides
 
 You can use the `BREK` (`OVERRIDE` has been deprecated) environment variable to override properties via CLI/ENV. `BREK` must be valid JSON. Example:
 
@@ -227,7 +231,7 @@ This is especially useful if you want to make use of environment variables (noti
 
 ⚠️ _Use caution! CLI overrides are not checked by Typescript's static type checking, and there is currently no runtime type checking feature. Feel free to submit an issue or PR if you want this._
 
-## Environment variables in config files
+# Environment variables in config files
 
 You can use environment variables as values by wrapping it in `${...}`. For example, to use environment variable `FOO`, use `${FOO}`. This will translate to `process.env.FOO`. These will always be typed as strings. Example config file:
 
@@ -237,18 +241,18 @@ You can use environment variables as values by wrapping it in `${...}`. For exam
 }
 ```
 
-## Loaders
+# Loaders
 
-Loaders are custom functions that are called during startup (run-time). This can be used to do anyting, such as fetching secrets from AWS Secrets Manager, or any other dynamic runtime operation. They can be Promise/async/await based.
+Loaders are custom functions that are called during startup (run-time). This can be used to do anything, such as fetching secrets from AWS Secrets Manager, or any other dynamic runtime operation. They can be Promise/async/await based.
 
-### Example
+## Example
 
 _conf/default.json_
 ```json
 {
   "foo": {
-    "[foo]": {
-      "a": "demo"
+    "[fetchSecret]": {
+      "key": "demo"
     }   
   },
   "bar": {
@@ -262,22 +266,22 @@ _index.ts_
 import {loadConfig, getConf} from "brek";
 
 const loaders = {
-    foo: (params: {a: string}) => Promise.resolve(`foo_${a}`),
-    add10: (val: number) => number + 10,
+    fetchSecret: (params: {key: string}) => Promise.resolve(`secret_${a}`),
+    add10: (val: number) => String(val + 10),
 };
 
 loadConfig(loaders)
     .then(() => {
-        console.log(getConf().foo); // "foo_demo"
-        console.log(getConf().bar); // 52
+        console.log(getConf().foo); // "secret_demo"
+        console.log(getConf().bar); // "52"
         //start server, etc.
     })
     .catch(console.log.bind(console));
 ```
 
-### Usage
+## Usage
 
-Loader functions must extend `(params: any) => any`. If helpful, you can import the `Loader` type like so:
+Loader functions must extend `(params: any) => string`. If helpful, you can import the `Loader` type like so:
 
 ```typescript
 import type {Loader} from 'brek';
@@ -292,7 +296,7 @@ In a conf file, any object with a single property matching the pattern `/^\[.*\]
 - Create all of the merge folders (ie. deployments) even if you're not using them.
 - Use AWS Secrets Manager or Hashicorp Vault to store your sensitive information and use a [loader](#loaders) to load them.
 
-## Debugging
+# Debugging
 
 You can set the `LAMBDA_CONF_DEBUG` environment variable to see debug output. Example:
 
