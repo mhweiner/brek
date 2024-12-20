@@ -163,8 +163,6 @@ loadConf()  // optionally pass in loaders here
 
 Once loaded, use `getConf` to access the configuration object. The configuration is cached after the first load, so you can call `getConf` as many times as you want without worrying about performance.
 
-> Note: If you used `loadConf()` in your app, it will already be in memory. If you used `brek load-conf`, the first call to `getConf` will read from disk.
-
 Example:
 `
 ```typescript
