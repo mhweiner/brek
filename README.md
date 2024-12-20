@@ -45,6 +45,8 @@ npm i brek
 
 Create a directory called `conf` in the root of your project. This is where your configuration will go, along with the generated Conf.d.ts TypeScript Declaration File. 
 
+> Note: If you want to use a different directory, you can set the `BREK_CONF_DIR` environment variable to the path of your configuration directory.
+
 If you will be using the Environment, User, or Deployment [merge strategies](#configuration-overrides-and-merge-strategy), you will need to create those folders within `conf` as `environments`, `users`, and `deployments`, respectively.
 
 Here's an example `conf` folder:
@@ -94,7 +96,7 @@ Whenever your configuration changes, you'll need to run the `brek` executable to
   ```json
   {
     "scripts": {
-      "prepare": "brek"
+      "postinstall": "brek"
     }
   }
   ```

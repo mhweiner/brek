@@ -4,9 +4,12 @@ import {resolveConf} from './resolveConf';
 import {loadConfFromFiles} from './loadConfFromFiles';
 import {mergeConfs} from './mergeConfs';
 import {debug} from './debug';
+import {writeConfJson} from './writeConfJson';
+import {readFileSync} from 'fs';
+import {toResult} from './lib/toResult';
+import {getConfDir} from './getConfDir';
 
-export interface Conf {}
-
+export interface Conf {} // This gets extended in the generated type definition
 export type Loader<I, O> = (params: I) => O;
 export type LoaderDict = {[name: string]: Loader<any, any>};
 
@@ -23,6 +26,7 @@ export async function loadConf(loaders: LoaderDict = {}): Promise<Conf> {
     debug('merged:', mergedConf);
 
     resolvedConf = await resolveConf(mergedConf, loaders);
+    writeConfJson(resolvedConf);
 
     return resolvedConf as Conf;
 
@@ -32,7 +36,17 @@ export function getConf(): Conf {
 
     if (!resolvedConf) {
 
-        throw new ConfNotLoaded();
+        // try to load from conf.json
+        const confJsonFilePath = `${getConfDir()}/conf.json`;
+        const [err, confRaw] = toResult(() => readFileSync(confJsonFilePath, 'utf8'));
+
+        if (err || !confRaw) throw new ConfNotLoaded();
+
+        const [err2, conf] = toResult(() => JSON.parse(confRaw));
+
+        if (err2) throw new Error(`Error parsing conf.json: ${err}`);
+
+        resolvedConf = conf;
 
     }
 
