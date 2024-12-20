@@ -224,29 +224,41 @@ A few notes:
 
 # Using CLI/env overrides
 
-You can use the `BREK` (`OVERRIDE` has been deprecated) environment variable to override properties via CLI/ENV. `BREK` must be valid JSON. Example:
+You can use the `BREK` environment variable to override properties via CLI/ENV. `BREK` must be valid JSON. Using `jq` simplifies dynamic JSON construction and makes it easier to handle environment variables.
 
-```shell script
-BREK="{\"a\": {\"b\": \"q\"}}" ts-node src/index.ts
+## Basic Example
+
+Set `BREK` to override properties dynamically:
+
+```bash
+BREK=$(jq -n '{a: {b: "q"}}') ts-node src/index.ts
 ```
 
-When using with npm scripts, it might be useful to use command substitution like so:
+## Using with npm Scripts
+
+In `package.json`, you can use `BREK` for overrides:
 
 ```json
 {
-   "start": "BREK=$(echo '{\"postgres\": \"localhost\"}') ts-node src/index.ts"
+  "scripts": {
+    "start": "BREK=$(jq -n '{postgres: \\"localhost\\"}') ts-node src/index.ts"
+  }
 }
 ```
 
-This is especially useful if you want to make use of environment variables (notice the extra single quotes):
+## Using Environment Variables
+
+If you want to make use of environment variables, `jq` ensures proper quoting and escaping:
 
 ```json
 {
-   "start": "BREK=$(echo '{\"postgres\": \"'$DATABASE_URL'\"}') ts-node src/index.ts"
+  "scripts": {
+    "start": "BREK=$(jq -n --arg db \\"$DATABASE_URL\\" '{postgres: $db}') ts-node src/index.ts"
+  }
 }
 ```
 
-⚠️ _Use caution! CLI overrides are not checked by Typescript's static type checking, and there is currently no runtime type checking feature. Feel free to submit an issue or PR if you want this._
+> Use caution! CLI overrides are not checked by Typescript's static type checking, and there is currently no runtime type checking feature.
 
 # Environment variables in config files
 
