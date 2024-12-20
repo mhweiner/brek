@@ -239,9 +239,7 @@ You can use environment variables as values by wrapping it in `${...}`. For exam
 
 ## Loaders
 
-Loaders are custom functions that are called during startup (run-time). This can be used to do anyting, such as fetching secrets from AWS Secrets Manager, or any other dynamic runtime operation.
-
-Loaders are run once during the type declaration build step (compile-time), and once while the configuration is loading (run-time). They can be normal functions or use async/await/Promise.
+Loaders are custom functions that are called during startup (run-time). This can be used to do anyting, such as fetching secrets from AWS Secrets Manager, or any other dynamic runtime operation. They can be Promise/async/await based.
 
 ### Example
 
