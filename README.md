@@ -124,20 +124,20 @@ To run this manually, you can run `npx brek`. This will generate the `Conf.d.ts`
 
 You may want to add `conf/Conf.d.ts` and `conf/conf.json` to your `.gitignore` file to prevent them from being checked into source control.
 
-# Loading the Configuration
+# Loading the configuration
 
 You must first *load* the configuration, which loads the files from disk, does the merge, and resolves any [loaders](#loaders). You have two options:
 
 1. Use `loadConf()` within your app to load the configuration asynchronously before your app starts.
 
-2. Use `loadConf()` in a script to generate the configuration file before running your app.
+2. Use `loadConf()` in a script to generate the `conf.json` configuration file before running your app.
 
 Here's an example of using `loadConf()` in your app:
 
 ```typescript
 import {loadConf, getConf} from "brek";
 
-loadConf()
+loadConf() // optionally pass in loaders here
     .then(() => {
         const conf = getConf();
         console.log(conf);
@@ -151,7 +151,7 @@ Here's an example of using `loadConf()` in an init script:
 ```typescript
 import {loadConf} from "brek";
 
-loadConf()
+loadConf()  // optionally pass in loaders here
     .then(() => {
         console.log("Configuration loaded successfully");
     })
