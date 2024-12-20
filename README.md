@@ -304,7 +304,9 @@ Loader functions must extend `(params: any) => string`. If helpful, you can impo
 import type {Loader} from 'brek';
 ```
 
-In a conf file, any object with a single property matching the pattern `/^\[.*\]$/` (`[...]`) is assumed to call a loader. If a matching loader is not found, it will throw a `LoaderNotFound` error.
+In a conf file, any object with a single property matching the pattern wrapped in square brackets (`[...]`) is assumed to be a loader. The key is the loader name, and the value is the parameter passed to the loader.
+
+If a matching loader is not found, it will throw a `LoaderNotFound` error. Loaders must return strings.
 
 # Recommended best practices
 
@@ -335,13 +337,13 @@ LAMBDA_CONF_DEBUG=1 ts-node src/index.ts
 - Write about this project in your blog, tweet about it, or share it with your friends!
 
 # Sponsorship
-
+<br>
 <picture>
     <source srcset="https://qhg29tyl98-av-www-dev1.s3.us-east-2.amazonaws.com/app-frontend/images/aeroview-white.svg" media="(prefers-color-scheme: dark)">
     <source srcset="https://qhg29tyl98-av-www-dev1.s3.us-east-2.amazonaws.com/app-frontend/images/aeroview-black.svg" media="(prefers-color-scheme: light)">
     <img src="https://qhg29tyl98-av-www-dev1.s3.us-east-2.amazonaws.com/app-frontend/images/aeroview-black.svg" alt="Logo" height="20">
 </picture>
-<br><br>
+<br>
 
 Aeroview is a lightning-fast, developer-friendly, and AI-powered logging IDE. Get started for free at [https://aeroview.io](https://aeroview.io).
 
