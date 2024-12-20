@@ -8,7 +8,7 @@ export async function resolveConf(
     loaders: LoaderDict,
 ): Promise<Record<string, any>> {
 
-    const resolvedConfig = {...obj};
+    const resolvedConfig = {...obj}; // Make a copy of the object, which will be modified
 
     await Promise.all(Object.keys(obj).map(async (key: string) => {
 
@@ -22,6 +22,7 @@ export async function resolveConf(
 
             } else {
 
+                // Recursively resolve the object
                 resolvedConfig[key] = await resolveConf(value, loaders);
 
             }

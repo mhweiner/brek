@@ -7,10 +7,9 @@
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 [![Static Badge](https://img.shields.io/badge/v2-autorel?label=autorel&labelColor=0ab5fc&color=grey&link=https%3A%2F%2Fgithub.com%2Fmhweiner%2Fautorel)](https://github.com/mhweiner/autorel)
 
-
 **Brek** stands for **B**locking **R**esolution of **E**nvironment **K**eys.
 
-Brek is a powerful yet simple configuration library for Node.js, Deno, and Bun (server-only). It’s structured, typed, and designed for dynamic configuration loading, making it perfect for securely managing secrets (e.g., AWS Secrets Manager). Written in TypeScript for safety and ease of use. Sponsored by [Aeroview](https://aeroview.io).
+Brek is a powerful yet simple configuration library for Node.js. It’s structured, typed, and designed for dynamic configuration loading, making it perfect for securely managing secrets (e.g., AWS Secrets Manager). Written in TypeScript for safety and ease of use. Sponsored by [Aeroview](https://aeroview.io).
 
 **🔒 Out-of-the-box Typescript support**
 - Turn your runtime errors into safer compile-time errors! Automatically generated Typescript type definition for configuration object
