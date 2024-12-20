@@ -116,7 +116,7 @@ Whenever your `default.json` configuration changes, you'll need to run the `brek
   }
   ```
 
-To run this manually, you can run `npx brek`. This will generate the `Conf.d.ts` file in your `conf` folder.
+To run this manually, you can run `npx brek generate-type`. This will generate the `Conf.d.ts` file in your `conf` folder.
 
 You can also use [loaders](#loaders) or [environment variables](#environment-variables-in-config-files).
 
