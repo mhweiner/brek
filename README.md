@@ -126,7 +126,7 @@ You may want to add `conf/Conf.d.ts` and `conf/conf.json` to your `.gitignore` f
 
 # Loading the configuration
 
-You must first *load* the configuration, which loads the files from disk, does the merge, and resolves any [loaders](#loaders). You have two options:
+Before you can read the configuration within your app, you must first *load* it. This step involves reading the files from disk, merging them, and resolving any [loaders](#loaders). You have two options:
 
 1. Use `loadConf()` within your app to load the configuration asynchronously before your app starts.
 
@@ -164,7 +164,7 @@ loadConf()  // optionally pass in loaders here
 Once loaded, use `getConf` to access the configuration object. The configuration is cached after the first load, so you can call `getConf` as many times as you want without worrying about performance.
 
 Example:
-`
+
 ```typescript
 import {getConf} from "brek";
 
