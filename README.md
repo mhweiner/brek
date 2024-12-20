@@ -83,7 +83,9 @@ __default.json__
 }
 ```
 
-See [full configuration rules](#configuration-rules), [merge strategy](#configuration-overrides-and-merge-strategy), and reference the example folder structure above. At a minimum, `default.json` is required at the root of your `conf` folder. 
+At a minimum, `default.json` is required at the root of your `conf` folder. 
+
+See [full configuration rules](#configuration-rules), [merge strategy](#configuration-overrides-and-merge-strategy), and reference the example folder structure above. Also, don't forget to check out [loaders](#loaders) for dynamic runtime configuration.
 
 ## 4. Typescript Configuration (tsconfig.json)
 
@@ -111,48 +113,51 @@ Whenever your `default.json` configuration changes, you'll need to run the `brek
   ```json
   {
     "scripts": {
-      "postinstall": "brek generate-type"
+      "postinstall": "brek"
     }
   }
   ```
 
-To run this manually, you can run `npx brek generate-type`. This will generate the `Conf.d.ts` file in your `conf` folder.
-
-You can also use [loaders](#loaders) or [environment variables](#environment-variables-in-config-files).
+To run this manually, you can run `npx brek`. This will generate the `Conf.d.ts` file in your `conf` folder.
 
 ## 6. Optional: Add generated files to `.gitignore`
 
 You may want to add `conf/Conf.d.ts` and `conf/conf.json` to your `.gitignore` file to prevent them from being checked into source control.
 
-# Configuration rules
-
-- `default.json` is required, everything else is optional. Recommended practice is that `default.json` contains all of your "local development" settings.
-
-- All configuration files must be a subset of `default.json`. Think of them simply as overrides to the default. In Typescript terms, conf files must be of type `Partial<Conf>`.
-
-- A property's type should not change simply because of a different environment, user, or deployment. This is basically saying the same as above.
-
-- [Loaders](#loaders) always must return a string. If you need to return a different type, you can use `JSON.parse()` or similar.
-
-- Arrays should be homogenous (not of mixed types).
-
 # Loading the Configuration
 
-You must first *load* the configuration, which loads the files from disk, does the merge, and resolves any [loaders](#loaders). You have to options:
+You must first *load* the configuration, which loads the files from disk, does the merge, and resolves any [loaders](#loaders). You have two options:
 
-1. Use `loadConf(): Promise<void>` within your app to load the configuration asynchronously before your app starts.
+1. Use `loadConf()` within your app to load the configuration asynchronously before your app starts.
 
-2. Use command the line `brek load-conf` to load the configuration and have it written to disk as an initialization step before you run your app. You can do this in your `package.json` like so:
+2. Use `loadConf()` in a script to generate the configuration file before running your app.
 
-```json
-{
-  "scripts": {
-    "run": "brek load-conf && node src/index.js"
-  }
-}
+Here's an example of using `loadConf()` in your app:
+
+```typescript
+import {loadConf, getConf} from "brek";
+
+loadConf()
+    .then(() => {
+        const conf = getConf();
+        console.log(conf);
+        // start your server, etc.
+    })
+    .catch(console.log.bind(console));
 ```
 
-Or you can use `npx`.
+Here's an example of using `loadConf()` in an init script:
+
+```typescript
+import {loadConf} from "brek";
+
+loadConf()
+    .then(() => {
+        console.log("Configuration loaded successfully");
+    })
+    .catch(console.log.bind(console));
+```
+
 
 # Getting the config object
 
@@ -177,6 +182,18 @@ If you need the type interface, you can import it:
 ```typescript
 import {Conf} from "brek";
 ```
+
+# Configuration rules
+
+- `default.json` is required, everything else is optional. Recommended practice is that `default.json` contains all of your "local development" settings.
+
+- All configuration files must be a subset of `default.json`. Think of them simply as overrides to the default. In Typescript terms, conf files must be of type `Partial<Conf>`.
+
+- A property's type should not change simply because of a different environment, user, or deployment. This is basically saying the same as above.
+
+- [Loaders](#loaders) always must return a string. If you need to return a different type, you can use `JSON.parse()` or similar.
+
+- Arrays should be homogenous (not of mixed types).
 
 # Configuration merge strategy
 
