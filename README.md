@@ -298,8 +298,6 @@ If a matching loader is not found, it will throw a `LoaderNotFound` error. Loade
 # Recommended best practices
 
 - `default.json` should contain all of your local development settings, and then "progressively enhance" from there.
-- Include `loadConf().then(...)` or `await loadConf()` in your startup process before your server starts listening (ie, before `app.listen()`).
-- Create all of the merge folders (ie. deployments) even if you're not using them.
 - Use AWS Secrets Manager or Hashicorp Vault to store your sensitive information and use a [loader](#loaders) to load them.
 
 # Debugging
