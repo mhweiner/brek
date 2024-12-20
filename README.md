@@ -224,41 +224,18 @@ A few notes:
 
 # Using CLI/env overrides
 
-You can use the `BREK` environment variable to override properties via CLI/ENV. `BREK` must be valid JSON. Using `jq` simplifies dynamic JSON construction and makes it easier to handle environment variables.
+You can use the `BREK` environment variable to override properties via CLI/ENV. `BREK` must be valid JSON. Using `jq` simplifies dynamic JSON construction, ensures proper quoting, and makes it easier to handle environment variables.
 
-## Basic Example
-
-Set `BREK` to override properties dynamically:
+## Examples
 
 ```bash
+# Override the a.b property
 BREK=$(jq -n '{a: {b: "q"}}') ts-node src/index.ts
+
+# Override the postgres property wth an environment variable
+DATABASE_URL="postgres://user:pass@localhost:5432/db"
+BREK=$(jq -n --arg db "$DATABASE_URL" '{postgres: $db}') ts-node src/index.ts
 ```
-
-## Using with npm Scripts
-
-In `package.json`, you can use `BREK` for overrides:
-
-```json
-{
-  "scripts": {
-    "start": "BREK=$(jq -n '{postgres: \\"localhost\\"}') ts-node src/index.ts"
-  }
-}
-```
-
-## Using Environment Variables
-
-If you want to make use of environment variables, `jq` ensures proper quoting and escaping:
-
-```json
-{
-  "scripts": {
-    "start": "BREK=$(jq -n --arg db \\"$DATABASE_URL\\" '{postgres: $db}') ts-node src/index.ts"
-  }
-}
-```
-
-> Use caution! CLI overrides are not checked by Typescript's static type checking, and there is currently no runtime type checking feature.
 
 # Environment variables in config files
 
