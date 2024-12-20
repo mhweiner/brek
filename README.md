@@ -317,7 +317,7 @@ LAMBDA_CONF_DEBUG=1 ts-node src/index.ts
 # Support, feedback, and contributions
 
 - Star this repo if you like it!
-- Submit an [issue](https://github.com/mhweiner/autorel/issues) with your problem, feature request or bug report
+- Submit an [issue](https://github.com/mhweiner/brek/issues) with your problem, feature request or bug report
 - Issue a PR against `main` and request review. Make sure all tests pass and coverage is good.
 - Write about this project in your blog, tweet about it, or share it with your friends!
 
