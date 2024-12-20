@@ -35,19 +35,17 @@ Brek is a powerful yet simple configuration library for Node.js. It’s structur
 
 # Installation & Setup
 
-## 1. Install from `npm`
+### 1. Install from `npm`
 
 ```shell
 npm i brek
 ```
 
-## 2. Create `conf` directory
+### 2. Create `conf` directory
 
 Create a directory called `conf` in the root of your project. This is where your configuration will go, along with the generated Conf.d.ts TypeScript Declaration File. 
 
 > Note: If you want to use a different directory, you can set the `BREK_CONF_DIR` environment variable to the path of your configuration directory.
-
-If you will be using the Environment, User, or Deployment [merge strategies](#configuration-overrides-and-merge-strategy), you will need to create those folders within `conf` as `environments`, `users`, and `deployments`, respectively.
 
 Here's an example `conf` folder:
 
@@ -64,13 +62,30 @@ root/
     └── default.json
 ```
 
-## 3. Create your configuration files
+At a minimum, `default.json` is required at the root of your `conf` folder. To learn more about the other folders, see [merge strategy](#configuration-merge-strategy) and [configuration rules](#configuration-rules)
 
-At a minimum, `default.json` is required at the root of your `conf` folder. 
+### 3. Create your configuration files
 
-See [full configuration rules](#configuration-rules), [merge strategy](#configuration-overrides-and-merge-strategy), and reference the example folder structure above.
+Here's a simple example:
 
-## 4. Typescript Configuration (tsconfig.json)
+__default.json__
+```json
+{
+  "postgres": {
+    "host": "localhost",
+    "port": 5432,
+    "user": "pguser"
+  }
+  "port": 3000,
+  "foo": {
+    "bar": true
+  }
+}
+```
+
+See [full configuration rules](#configuration-rules), [merge strategy](#configuration-overrides-and-merge-strategy), and reference the example folder structure above. At a minimum, `default.json` is required at the root of your `conf` folder. 
+
+### 4. Typescript Configuration (tsconfig.json)
 
 Make sure the generated `conf/Conf.d.ts` file will be picked up by your Typescript parser. One way to do this is by including it in your `include` directive like so:
 
@@ -89,14 +104,14 @@ Make sure the generated `conf/Conf.d.ts` file will be picked up by your Typescri
 }
 ```
 
-## 5. Call `brek` when your configuration changes
+### 5. Call `brek` when your configuration changes to generate the type declaration file
 
-Whenever your configuration changes, you'll need to run the `brek` executable to build the type declaration file. One option is to add the following to your `package.json` file:
+Whenever your `default.json` configuration changes, you'll need to run the `brek` command to build the type declaration file. For example, you could add the following to your `package.json` file:
     
   ```json
   {
     "scripts": {
-      "postinstall": "brek"
+      "postinstall": "brek generate-type"
     }
   }
   ```
@@ -113,41 +128,44 @@ You can also use [loaders](#loaders) or [environment variables](#environment-var
 
 - A property's type should not change simply because of a different environment, user, or deployment. This is basically saying the same as above.
 
-- [Loaders](#loaders) that are used on the same property in different files should all return the same type (again, same as above).
+- [Loaders](#loaders) always must return a string. If you need to return a different type, you can use `JSON.parse()` or similar.
 
 - Arrays should be homogenous (not of mixed types).
 
 ## Loading the Configuration
 
-You must first *load* the config, which resolves any [loaders](#loaders) and performs the merge. 
+You must first *load* the configuration, which loads the files from disk, does the merge, and resolves any [loaders](#loaders). You have to options:
 
-We <b>strongly</b> recommend you call `loadConf()` before your app starts, ie, during initialization, before `app.listen(), etc.`.This will cache the configuration so there will be no performance penalty.
+1. Use `loadConf(): Promise<void>` within your app to load the configuration asynchronously before your app starts.
 
-Either way, the configuration will only load once, as it will be cached.
+2. Use command the line `brek load-conf` to load the configuration and have it written to disk as an initialization step before you run your app. You can do this in your `package.json` like so:
 
-```typescript
-import {loadConf, getConf} from "brek";
-
-loadConf().then(() => {
-
-    //start server, etc.
-    console.log(getConf()); // outputs config object
-
-}).catch(console.log.bind(console));
+```json
+{
+  "scripts": {
+    "run": "brek load-conf && node src/index.js"
+  }
+}
 ```
+
+Or you can use `npx`.
 
 ## Getting the config object
 
-Once loaded, use `getConf` to access:
+Once loaded, use `getConf` to access the configuration object. The configuration is cached after the first load, so you can call `getConf` as many times as you want without worrying about performance.
 
+> Note: If you used `loadConf()` in your app, it will already be in memory. If you used `brek load-conf`, the first call to `getConf` will read from disk.
+
+Example:
+`
 ```typescript
 import {getConf} from "brek";
 
-const conf = getConf(); // type of Conf is inferred
+const conf = getConf(); // type of Conf
 
 console.log(conf); // logs config object
 
-const isFooBarEnabled: boolean = conf.foo.bar; // Typescript error if does not exist or type mismatch
+const isFooBarEnabled: boolean = conf.foo.bar; // will throw Typescript error as expected if does not exist or is not a boolean
 ```
 
 If you need the type interface, you can import it:
