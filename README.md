@@ -16,15 +16,15 @@ Brek is a powerful yet simple configuration library for Node.js. It’s structur
 - Any override must satisfy `Partial<DefaultConfig>` type, or it will throw a Typescript error
 
 **😃 Simple, easy-to-use, safe, and stable**
-- All settings are in simple, easily readable & logic free `.json` files.
-- Enforces a simple and sensible folder structure
+- All settings are in simple, logic free `.json` files.
+- Adds structure and organization to your configuration files
+- Easily see what is being overridden and where
 - Comprehensive yet easy to understand documentation
 - Small, modular, and unit-tested codebase written in Typescript **with no dependencies**.
 
 **💪 Flexible & powerful**
+- Differentiates between concepts such as `environment`, `deployment`, and `user` and provides an out-of-the-box solution with sensible merge strategy
 - Provides for overrides via CLI without polluting the CLI argument namespace
-- Differentiates between concepts such as `environment`, `deployment`, and `user` and provides an out-of-the-box
-  solution with sensible merge strategy
 - Fast. Runtime processing is done during app initialization only.
 - Put [environment variables](#environment-variables-in-config-files) directly into .json files
 
