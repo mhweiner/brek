@@ -158,6 +158,9 @@ loadConf()  // optionally pass in loaders here
     .catch(console.log.bind(console));
 ```
 
+```bash
+ts-node init.ts && ts-node src/index.ts
+```
 
 # Getting the config object
 
