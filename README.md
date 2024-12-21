@@ -18,8 +18,8 @@ Brek is a powerful yet simple configuration library for Node.js. It’s structur
 **😃 Simple, easy-to-use, safe, and stable**
 - All settings are in simple, easily readable & logic free `.json` files.
 - Enforces a simple and sensible folder structure
-- Limited yet powerful feature set with clean documentation
-- Small, simple, and modular codebase written in Typescript with no dependencies.
+- Comprehensive yet easy to understand documentation
+- Small, modular, and unit-tested codebase written in Typescript **with no dependencies**.
 
 **💪 Flexible & powerful**
 - Provides for overrides via CLI without polluting the CLI argument namespace
@@ -327,9 +327,9 @@ LAMBDA_CONF_DEBUG=1 ts-node src/index.ts
 # Sponsorship
 <br>
 <picture>
-    <source srcset="https://qhg29tyl98-av-www-dev1.s3.us-east-2.amazonaws.com/app-frontend/images/aeroview-white.svg" media="(prefers-color-scheme: dark)">
-    <source srcset="https://qhg29tyl98-av-www-dev1.s3.us-east-2.amazonaws.com/app-frontend/images/aeroview-black.svg" media="(prefers-color-scheme: light)">
-    <img src="https://qhg29tyl98-av-www-dev1.s3.us-east-2.amazonaws.com/app-frontend/images/aeroview-black.svg" alt="Logo" height="20">
+    <source srcset="docs/aeroview-white.svg" media="(prefers-color-scheme: dark)">
+    <source srcset="docs/aeroview-black.svg" media="(prefers-color-scheme: light)">
+    <img src="docs/aeroview-black.svg" alt="Logo" height="20">
 </picture>
 <br>
 
