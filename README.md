@@ -153,7 +153,7 @@ import {loadConf} from "brek";
 
 loadConf()  // optionally pass in loaders here
     .then(() => {
-        console.log("Configuration loaded successfully");
+        console.log("Configuration loaded successfully and written to conf.json");
     })
     .catch(console.log.bind(console));
 ```
