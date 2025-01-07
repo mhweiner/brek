@@ -15,7 +15,10 @@ export type LoaderDict = {[name: string]: Loader<any, any>};
 
 let resolvedConf: Record<string, any> | null = null;
 
-export async function loadConf(loaders: LoaderDict = {}): Promise<Conf> {
+export async function loadConf(
+    loaders: LoaderDict = {},
+    silent = false // will not log to console
+): Promise<Conf> {
 
     const env = getEnvArguments();
     const confFromFiles = loadConfFromFiles(env);
@@ -26,7 +29,7 @@ export async function loadConf(loaders: LoaderDict = {}): Promise<Conf> {
     debug('merged:', mergedConf);
 
     resolvedConf = await resolveConf(mergedConf, loaders);
-    writeConfJson(resolvedConf);
+    writeConfJson(resolvedConf, silent);
 
     return resolvedConf as Conf;
 

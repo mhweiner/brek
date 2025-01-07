@@ -137,7 +137,7 @@ Here's an example of using `loadConf()` in your app:
 ```typescript
 import {loadConf, getConf} from "brek";
 
-loadConf() // optionally pass in loaders here
+loadConf() // optionally pass in loaders and options here
     .then(() => {
         const conf = getConf();
         console.log(conf);
@@ -297,6 +297,20 @@ import type {Loader} from 'brek';
 In a conf file, any object with a single property matching the pattern wrapped in square brackets (`[...]`) is assumed to be a loader. The key is the loader name, and the value is the parameter passed to the loader.
 
 If a matching loader is not found, it will throw a `LoaderNotFound` error. Loaders must return strings.
+
+# API
+
+## `loadConf(loaders?: Loaders, silent = false): Promise<void>`
+
+Loads the configuration files from disk, merges them, resolves any loaders,
+and writes the final configuration to `conf.json`. This function must be called before `getConf()`.
+
+- `loaders` (optional): An object containing loader functions. The key is the loader name, and the value is the loader function.
+- `silent` (optional): If true, will not log any output to the console. Default is `false`.
+
+## `getConf(): Conf`
+
+Returns the configuration object. This function must be called after `loadConf()`.
 
 # Recommended best practices
 
