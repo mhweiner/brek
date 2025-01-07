@@ -318,7 +318,7 @@ Returns the configuration object. This function must be called after `loadConf()
 
 # Debugging
 
-You can set the `LAMBDA_CONF_DEBUG` environment variable to see debug output. Example:
+You can set the `BREK_DEBUG` environment variable to see debug output. Example:
 
 ```shell script
 BREK_DEBUG=1 ts-node src/index.ts
