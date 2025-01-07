@@ -113,7 +113,7 @@ Whenever your `default.json` configuration changes, you'll need to run the `brek
   ```json
   {
     "scripts": {
-      "postinstall": "brek"
+      "prepare": "brek"
     }
   }
   ```
