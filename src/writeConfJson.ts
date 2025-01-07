@@ -1,14 +1,12 @@
 import * as fs from 'fs';
 import {getConfDir} from './getConfDir';
+import {debug} from './debug';
 
-export function writeConfJson(
-    resolvedConf: Record<string, any>,
-    silent = false // will not log to console
-): void {
+export function writeConfJson(resolvedConf: Record<string, any>): void {
 
     const filepath = `${getConfDir()}/conf.json`;
 
-    !silent && console.log(`brek: writing ${filepath}`);
+    debug('Writing conf to:', filepath);
     fs.writeFileSync(filepath, JSON.stringify(resolvedConf, null, 2));
 
 }

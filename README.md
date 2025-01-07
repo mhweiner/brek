@@ -300,13 +300,12 @@ If a matching loader is not found, it will throw a `LoaderNotFound` error. Loade
 
 # API
 
-## `loadConf(loaders?: Loaders, silent = false): Promise<void>`
+## `loadConf(loaders?: Loaders): Promise<void>`
 
 Loads the configuration files from disk, merges them, resolves any loaders,
 and writes the final configuration to `conf.json`. This function must be called before `getConf()`.
 
 - `loaders` (optional): An object containing loader functions. The key is the loader name, and the value is the loader function.
-- `silent` (optional): If true, will not log any output to the console. Default is `false`.
 
 ## `getConf(): Conf`
 
@@ -322,7 +321,7 @@ Returns the configuration object. This function must be called after `loadConf()
 You can set the `LAMBDA_CONF_DEBUG` environment variable to see debug output. Example:
 
 ```shell script
-LAMBDA_CONF_DEBUG=1 ts-node src/index.ts
+BREK_DEBUG=1 ts-node src/index.ts
 ```
 
 > Use with caution! This may output sensitive information to the console.

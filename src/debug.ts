@@ -1,8 +1,8 @@
 export function debug(...args: any[]): void {
 
-    if (process.env.LAMBDACONF_DEBUG) {
+    if (process.env.LAMBDACONF_DEBUG || process.env.BREK_DEBUG) {
 
-        console.log('[lambdaconf]', ...args);
+        console.log('[BREK][DEBUG]', ...args);
 
     }
 
