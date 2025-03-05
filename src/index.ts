@@ -10,7 +10,7 @@ import {toResult} from './lib/toResult';
 import {getConfDir} from './getConfDir';
 
 export interface Conf {} // This gets extended in the generated type definition
-export type Loader<T> = (params: T) => string;
+export type Loader<T extends Record<string, string>> = (params: T) => string;
 export type LoaderDict = {[name: string]: Loader<any>};
 
 let resolvedConf: Record<string, any> | null = null;
