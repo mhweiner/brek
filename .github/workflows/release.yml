@@ -3,7 +3,7 @@ on:
   push:
     branches:
       - main
-      - alpha
+      - next
 jobs:
   release:
     name: Release
@@ -21,12 +21,6 @@ jobs:
           node-version: latest
           registry-url: "https://registry.npmjs.org"
           cache: 'npm'
-      - name: Cache project's node_modules
-        uses: actions/cache@v3
-        id: cache-node-modules
-        with:
-          path: node_modules
-          key: ${{runner.os}}-node-${{hashFiles('package-lock.json')}}
       - name: Install app dependencies cleanly
         run: npm ci
       - name: Linting
