@@ -1,31 +1,26 @@
 # Getting Started
 
-Using `brek` is simple, we promise. Here's a quick guide to get you started. At a high level, you'll need to:
+Using `brek` is simple, we promise. Here's a quick guide to get you started.
 
-1. Install `brek` from `npm`
-2. Create a `conf` directory
-3. Create your configuration files
-4. Configure Typescript to include the generated `Conf.d.ts` file
-5. Call `brek` to generate the type declaration file
-6. Load the configuration in your app
+## Installation & Setup
 
-## 1. Install from `npm`
+### 1. Install from `npm`
 
 ```shell
 npm i brek
 ```
 
-## 2. Create `conf` directory
+### 2. Create `config` directory
 
-Create a directory called `conf` in the root of your project. This is where your configuration will go, along with the generated Conf.d.ts TypeScript Declaration File. 
+Create a directory called `config` in the root of your project. This is where your configuration will go, along with the generated Conf.d.ts TypeScript Declaration File. 
 
-> Note: If you want to use a different directory, you can set the `BREK_CONF_DIR` environment variable to the path of your configuration directory.
+> Note: If you want to use a different directory, you can set the `BREK_CONFIG_DIR` environment variable to the path of your configuration directory.
 
-Here's an example `conf` folder:
+Here's an example `config` folder:
 
 ```shell script
 root/
-└── conf/
+└── config/
     └── deployments
         └── test.acme.json
     └── environments
@@ -36,9 +31,11 @@ root/
     └── default.json
 ```
 
-At a minimum, `default.json` is required at the root of your `conf` folder. To learn more about the other folders, see [merge strategy](#configuration-merge-strategy) and [configuration rules](#configuration-rules)
+Only `default.json` is required, which is placed at the root of your `config` folder. 
 
-## 3. Create your configuration files
+To learn more how this works, see [merge strategy](../README#configuration-merge-strategy) and [configuration rules](../README.md#configuration-rules).
+
+### 3. Create your configuration files
 
 Here's a simple example:
 
@@ -48,27 +45,45 @@ __default.json__
   "postgres": {
     "host": "localhost",
     "port": 5432,
-    "user": "pguser"
+    "user": "pguser",
+    "password": "pgpassword",
   }
-  "port": 3000,
-  "foo": {
-    "bar": true
-  }
+  "port": 3000
 }
 ```
 
-At a minimum, `default.json` is required at the root of your `conf` folder. 
+At a minimum, `default.json` is required at the root of your `conf` folder.
 
-See [full configuration rules](#configuration-rules), [merge strategy](#configuration-overrides-and-merge-strategy), and reference the example folder structure above. Also, don't forget to check out [loaders](#loaders) for dynamic runtime configuration.
+See [full configuration rules](#configuration-rules), [merge strategy](#configuration-overrides-and-merge-strategy), and reference the example folder structure above. 
 
-## 4. Typescript Configuration (tsconfig.json)
+Also, don't forget to check out [loaders](#loaders) for dynamic runtime configuration! 🚀
 
-Make sure the generated `conf/Conf.d.ts` file will be picked up by your Typescript parser. One way to do this is by including it in your `include` directive like so:
+### 4. Call `brek write-types` when your configuration changes to generate the type declaration file
+
+Whenever your base `default.json` configuration changes, you'll need to run the command to build the type declaration file, `Config.d.ts`.
+
+For example, you could add the following to your `package.json` file:
+    
+  ```json
+  {
+    "scripts": {
+      "prepare": "brek write-types"
+    }
+  }
+  ```
+
+To run this manually, you can run `npx brek write-types`.
+
+### 5. Optional: Typescript Configuration (tsconfig.json)
+
+If you're using Typescript, you'll need to make sure your Typescript configuration is set up correctly.
+
+Make sure the generated `Config.d.ts` file will be picked up by your Typescript parser. One way to do this is by including it in your `include` directive like so:
 
 ```json
   "include":[
     "src/**/*",
-    "conf/Conf.d.ts"
+    "config/Conf.d.ts" // modify this if your config directory is different
   ],
 ```
 
@@ -80,80 +95,40 @@ Make sure the generated `conf/Conf.d.ts` file will be picked up by your Typescri
 }
 ```
 
-## 5. Call `brek` when your configuration changes to generate the type declaration file
+### 6. Optional: Preload configuration
 
-Whenever your `default.json` configuration changes, you'll need to run the `brek` command to build the type declaration file. For example, you could add the following to your `package.json` file:
-    
-  ```json
-  {
-    "scripts": {
-      "prepare": "brek"
-    }
+The first time the configuration is accessed, it will be loaded from disk and merged, along with the resolution of any loaders.
+
+This can cause a delay in your app's startup time. To avoid this, you can preload the configuration by calling `brek load-config` before your app starts.
+
+```json
+{
+  "scripts": {
+    "start": "brek load-config && node src/index.js"
   }
-  ```
-
-To run this manually, you can run `npx brek`. This will generate the `Conf.d.ts` file in your `conf` folder.
-
-## 6. Optional: Add generated files to `.gitignore`
-
-You may want to add `conf/Conf.d.ts` and `conf/conf.json` to your `.gitignore` file to prevent them from being checked into source control.
-
-# Loading the configuration
-
-Before you can read the configuration within your app, you must first *load* it. This step involves reading the files from disk, merging them, and resolving any [loaders](#loaders). You have two options:
-
-1. Use `loadConf()` within your app to load the configuration asynchronously before your app starts.
-
-2. Use `loadConf()` in a script to generate the `conf.json` configuration file before running your app.
-
-Here's an example of using `loadConf()` in your app:
-
-```typescript
-import {loadConf, getConf} from "brek";
-
-loadConf() // optionally pass in loaders and options here
-    .then(() => {
-        const conf = getConf();
-        console.log(conf);
-        // start your server, etc.
-    })
-    .catch(console.log.bind(console));
+}
 ```
 
-Here's an example of using `loadConf()` in an init script:
+### 7. Optional: Add generated files to `.gitignore`
 
-```typescript
-import {loadConf} from "brek";
+You may want to add `config/Config.d.ts` and `config/config.json` to your `.gitignore` file to prevent them from being checked into source control.
 
-loadConf()  // optionally pass in loaders here
-    .then(() => {
-        console.log("Configuration loaded successfully and written to conf.json");
-    })
-    .catch(console.log.bind(console));
-```
+## Getting the config object or Config type
 
-```bash
-ts-node init.ts && ts-node src/index.ts
-```
-
-# Getting the config object
-
-Once loaded, use `getConf` to access the configuration object. The configuration is cached after the first load, so you can call `getConf` as many times as you want without worrying about performance.
+Use `getConfig()` to access the configuration object.
 
 Example:
 
 ```typescript
-import {getConf} from "brek";
+import {getConfig} from "brek";
 
-const conf = getConf(); // type of Conf
+const config = getConfig(); // type of Config
 
-console.log(conf); // logs config object
-
-const isFooBarEnabled: boolean = conf.foo.bar; // will throw Typescript error as expected if does not exist or is not a boolean
+// Enjoy full autocompletion and type safety! 🚀
 ```
 
 If you need the type interface, you can import it:
 
 ```typescript
-import {Conf} from "brek";
+import {Config} from "brek";
 ```
