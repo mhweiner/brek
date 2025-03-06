@@ -1,11 +1,8 @@
 {
     "foo": "bar",
     "addResult": {"[add]": {
-            "a": 5,
-            "b": 6
+        "a": 5,
+        "b": 6
     }},
-    "multiplyResult": {"[multiply]": {
-            "a": 5,
-            "b": 6
-    }}
+    "multiplyResult": {"[multiplyBy5]": 5}
 }

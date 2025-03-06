@@ -34,7 +34,7 @@ test('load config correctly', (assert) => {
     assert.equal(getConfig(), {
         foo: 'bar',
         addResult: '11',
-        multiplyResult: '30',
+        multiplyResult: '25',
     });
 
     // cleanup, delete the config.json file

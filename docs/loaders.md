@@ -9,7 +9,8 @@ _conf/default.json_
 {
   "foo": {
     "[fetchSecret]": {
-      "key": "demo"
+      "key": "demo",
+      "region": "us-west-2"
     }   
   },
   "bar": {
@@ -17,23 +18,27 @@ _conf/default.json_
   }
 }
 ```
-_index.ts_
-
-```typescript
-import {loadConfig, getConf} from "brek";
-
-const loaders = {
-    fetchSecret: (params: {key: string}) => Promise.resolve(`secret_${a}`),
-    add10: (val: number) => String(val + 10),
+_brek.loaders.js_
+```javascript
+module.exports = {
+    fetchSecret: async ({key, region}) => {
+        //fetch secret from AWS Secrets Manager
+        return Promise.resolve(`secret_${key}_${region}`);
+    },
+    add10: (val) => {
+        return String(val + 10);
+    }
 };
+```
 
-loadConfig(loaders)
-    .then(() => {
-        console.log(getConf().foo); // "secret_demo"
-        console.log(getConf().bar); // "52"
-        //start server, etc.
-    })
-    .catch(console.log.bind(console));
+_index.ts_
+```typescript
+import {getConf} from "brek";
+
+const {foo, bar} = getConf();
+
+console.log(foo); // secret_demo_us-west-2
+console.log(bar); // 52
 ```
 
 ## Usage
