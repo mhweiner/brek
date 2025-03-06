@@ -27,7 +27,8 @@
     "prepare": "npm run build",
     "test": "c8 hoare 'src/**/*.spec.ts' && c8 report -r text -r html",
     "lint": "eslint ./ --ext .js,.ts",
-    "build": "tsc -p tsconfig.build.json"
+    "build": "tsc -p tsconfig.build.json",
+    "test:int": "BREK_CONFIG_DIR=integration-tests/config BREK_WRITE_DIR=/tmp BREK_LOADERS_FILE_PATH=integration-tests/config/brek.loaders.js hoare 'integration-tests/**/*.spec.ts'"
   },
   "homepage": "https://github.com/mhweiner/brek",
   "keywords": [

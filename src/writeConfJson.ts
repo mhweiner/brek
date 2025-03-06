@@ -1,12 +1,14 @@
-import * as fs from 'fs';
-import {getConfDir} from './getConfDir';
+import * as fs from 'node:fs';
+import {resolve} from 'node:path';
+
 import {debug} from './debug';
+import {BREK_WRITE_DIR} from '.';
 
 export function writeConfJson(resolvedConf: Record<string, any>): void {
 
-    const filepath = `${getConfDir()}/conf.json`;
+    const filepath = resolve(BREK_WRITE_DIR, 'config.json');
 
-    debug('Writing conf to:', filepath);
+    debug('Writing config to:', filepath);
     fs.writeFileSync(filepath, JSON.stringify(resolvedConf, null, 2));
 
 }

@@ -12,10 +12,10 @@ export function loadConfFromFiles(p: {
     } {
 
     return {
-        Default: loadConfFile('/default.json'),
-        environment: p.environment ? loadConfFile(`/environments/${p.environment}.json`) : {},
-        deployment: p.deployment ? loadConfFile(`/deployments/${p.deployment}.json`) : {},
-        user: p.user ? loadConfFile(`/users/${p.user}.json`) : {},
+        Default: loadConfFile(['default.json']),
+        environment: p.environment ? loadConfFile(['environments', `${p.environment}.json`]) : {},
+        deployment: p.deployment ? loadConfFile(['deployments', `${p.deployment}.json`]) : {},
+        user: p.user ? loadConfFile(['users', `${p.user}.json`]) : {},
     };
 
 }
