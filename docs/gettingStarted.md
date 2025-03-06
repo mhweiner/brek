@@ -10,7 +10,7 @@ Using `brek` is simple, we promise. Here's a quick guide to get you started.
 npm i brek
 ```
 
-### 2. Create `config` directory
+### 2. Create `config` directory and configuration files
 
 Create a directory called `config` in the root of your project. This is where your configuration will go, along with the generated Conf.d.ts TypeScript Declaration File. 
 
@@ -33,10 +33,6 @@ root/
 
 Only `default.json` is required, which is placed at the root of your `config` folder. 
 
-To learn more how this works, see [merge strategy](../README#configuration-merge-strategy) and [configuration rules](../README.md#configuration-rules).
-
-### 3. Create your configuration files
-
 Here's a simple example:
 
 __default.json__
@@ -52,13 +48,9 @@ __default.json__
 }
 ```
 
-At a minimum, `default.json` is required at the root of your `conf` folder.
+To learn more how this works, see [merge strategy](../README#configuration-merge-strategy) and [configuration rules](../README.md#configuration-rules). Also, don't forget to check out [loaders](#loaders) for dynamic runtime configuration! 🚀
 
-See [full configuration rules](#configuration-rules), [merge strategy](#configuration-overrides-and-merge-strategy), and reference the example folder structure above. 
-
-Also, don't forget to check out [loaders](#loaders) for dynamic runtime configuration! 🚀
-
-### 4. Call `brek write-types` when your configuration changes to generate the type declaration file
+### 3. Call `brek write-types` when your configuration changes to generate the type declaration file
 
 Whenever your base `default.json` configuration changes, you'll need to run the command to build the type declaration file, `Config.d.ts`.
 
@@ -74,7 +66,7 @@ For example, you could add the following to your `package.json` file:
 
 To run this manually, you can run `npx brek write-types`.
 
-### 5. Optional: Typescript Configuration (tsconfig.json)
+### 4. Optional: Typescript Configuration (tsconfig.json)
 
 If you're using Typescript, you'll need to make sure your Typescript configuration is set up correctly.
 
@@ -95,7 +87,7 @@ Make sure the generated `Config.d.ts` file will be picked up by your Typescript 
 }
 ```
 
-### 6. Optional: Preload configuration
+### 5. Optional: Preload configuration
 
 The first time the configuration is accessed, it will be loaded from disk and merged, along with the resolution of any loaders.
 
@@ -109,7 +101,7 @@ This can cause a delay in your app's startup time. To avoid this, you can preloa
 }
 ```
 
-### 7. Optional: Add generated files to `.gitignore`
+### 6. Optional: Add generated files to `.gitignore`
 
 You may want to add `config/Config.d.ts` and `config/config.json` to your `.gitignore` file to prevent them from being checked into source control.
 
