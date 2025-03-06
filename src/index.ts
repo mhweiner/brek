@@ -57,13 +57,13 @@ export function getConfig(): Config {
         // Set encoding to 'utf8' so execSync returns a string instead of a Buffer.
         const output = execSync(cmd, {encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe']});
 
-        console.log('stdout:', output);
+        console.log(output);
 
     } catch (error: any) {
 
-        // error.stdout and error.stderr will be Buffers (or strings, if encoding was set)
-        console.error('stdout:', error.stdout?.toString());
-        console.error('stderr:', error.stderr?.toString());
+        console.log(error.stdout);
+        console.error(error.stderr);
+        throw error;
 
     }
 
@@ -92,21 +92,29 @@ export async function loadConfig(): Promise<void> {
     try {
 
         // Load the loaders from the provided file path.
-        // Use the file:// prefix to ensure the dynamic import works correctly in an ESM context.
-        const mod = await import(`file://${BREK_LOADERS_FILE_PATH}`);
+        // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
+        const mod = require(BREK_LOADERS_FILE_PATH);
 
-        loaders = mod.default;
+        loaders = mod.default || mod;
 
-    } catch (e) {
+    } catch (e: any) {
 
-        console.log(`No loaders found at ${BREK_LOADERS_FILE_PATH}.`);
+        if (e.code === 'MODULE_NOT_FOUND') {
+
+            console.log(`No loaders found at ${BREK_LOADERS_FILE_PATH}.`);
+
+        } else {
+
+            throw e;
+
+        }
 
     }
 
     debug('env:', env);
     debug('confFromFiles:', confFromFiles);
     debug('merged:', mergedConf);
-    debug('loaders:', loaders);
+    debug('loaders:', loaders ? Object.keys(loaders) : 'none');
 
     if (Object.keys(loaders)) {
 

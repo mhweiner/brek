@@ -1,7 +1,7 @@
 import {test} from 'hoare';
 import {writeTypeDef} from '../src/writeTypeDef';
 import {getConfig} from '../src';
-import {readFileSync} from 'node:fs';
+import {readFileSync, unlinkSync} from 'node:fs';
 import {resolve} from 'node:path';
 
 test('write spec file in tmp folder and read it successfully with correct contents', (assert) => {
@@ -24,17 +24,20 @@ declare module "brek" {
 
     assert.equal(typeFileContent, expectedContents);
 
+    // cleanup by deleting the file
+    unlinkSync(filepath);
+
 });
 
 test('load config correctly', (assert) => {
 
-    const config = getConfig();
+    assert.equal(getConfig(), {
+        foo: 'bar',
+        addResult: '11',
+        multiplyResult: '30',
+    });
 
-    assert.equal(config, 'poop');
-
-    // read the file and check the contents
-    const configFileContents = readFileSync('/tmp/config.json', 'utf-8');
-
-    assert.equal(configFileContents, '{"foo":"bar"}');
+    // cleanup, delete the config.json file
+    unlinkSync(resolve(process.env.BREK_WRITE_DIR ?? 'config', 'config.json'));
 
 });
