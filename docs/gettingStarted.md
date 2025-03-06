@@ -68,9 +68,7 @@ To run this manually, you can run `npx brek write-types`.
 
 ### 4. Optional: Typescript Configuration (tsconfig.json)
 
-If you're using Typescript, you'll need to make sure your Typescript configuration is set up correctly.
-
-Make sure the generated `Config.d.ts` file will be picked up by your Typescript parser. One way to do this is by including it in your `include` directive like so:
+If you're using Typescript, you'll need to make sure the generated `Config.d.ts` file will be picked up by your Typescript parser. One way to do this is by including it in your `include` directive like so:
 
 ```json
   "include":[
