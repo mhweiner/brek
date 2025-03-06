@@ -11,7 +11,7 @@ import {resolveConf} from './resolveConf';
 import {debug} from './debug';
 
 export interface Config {} // This gets extended in the generated type definition
-export type Loader<T extends Record<string, string>> = (params: T) => string;
+export type Loader<T extends Record<string, string>> = (params: T) => string | Promise<string>;
 export type LoaderDict = {[name: string]: Loader<any>};
 
 export const BREK_CONFIG_DIR = process.env.BREK_CONFIG_DIR ?? resolve('config');
