@@ -106,7 +106,7 @@ Which of these sources to choose depends on the presence of certain `process.env
 
 | **process.env**              | **conf file**                         |
 | ---------------------------- | --------------------------------------|
-| `NODE_ENV` or `ENVIRONMENT`  | `/conf/environments/[NODE_ENV].json`  |
+| `NODE_ENV` or `ENVIRONMENT`  | `/conf/environments/[ENVIRONMENT].json`  |
 | `DEPLOYMENT`                 | `/conf/deployments/[DEPLOYMENT].json` |
 | `USER`                       | `/conf/users/[USER].json`             |
 
