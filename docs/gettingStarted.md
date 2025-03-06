@@ -89,7 +89,7 @@ If you're using Typescript, you'll need to make sure the generated `Config.d.ts`
 
 The first time the configuration is accessed, it will be loaded from disk and merged, along with the resolution of any loaders.
 
-This can cause a delay in your app's startup time. To avoid this, you can preload the configuration by calling `brek load-config` before your app starts.
+This can cause a delay in your app. To avoid this, you can preload the configuration by calling `brek load-config` before your app starts.
 
 ```json
 {
