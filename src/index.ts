@@ -14,15 +14,16 @@ export interface Config {} // This gets extended in the generated type definitio
 export type Loader<T extends Record<string, string>> = (params: T) => string;
 export type LoaderDict = {[name: string]: Loader<any>};
 
-export const BREK_CONFIG_DIR = process.env.BREK_CONFIG_DIR ?? './config';
+export const BREK_CONFIG_DIR = process.env.BREK_CONFIG_DIR ?? resolve('config');
 // The directory to write the resolved configuration to. On read-only file
 // systems such as AWS Lambda, this should be set to a writable directory, ie
 // /tmp.
-export const BREK_WRITE_DIR = process.env.BREK_WRITE_DIR ?? BREK_CONFIG_DIR;
-export const BREK_LOADERS_FILE_PATH = resolve(process.env.BREK_LOADERS_FILE_PATH ?? 'brek.loaders.js');
+export const BREK_WRITE_DIR = process.env.BREK_WRITE_DIR ? resolve(process.env.BREK_WRITE_DIR) : BREK_CONFIG_DIR;
+export const BREK_LOADERS_FILE_PATH = process.env.BREK_LOADERS_FILE_PATH ? resolve(process.env.BREK_LOADERS_FILE_PATH) : resolve('brek.loaders.js');
 export const BREK_CONFIG_JSON_PATH = resolve(BREK_WRITE_DIR, 'config.json');
 
 let resolvedConf: Record<string, any> | null = null;
+let attempts = 0;
 
 export function getConfig(): Config {
 
@@ -45,16 +46,42 @@ export function getConfig(): Config {
     }
 
     // Load from project's config files and environment variables.
-    // Execute the command synchronously, returning the resolved configuration.
-    resolvedConf = execSync(`node ${resolve('dist', 'buildAndResolveConfigCli.js')}`) as Record<string, any>;
+    // Execute the command synchronously, which writes the resolved configuration to config.json.
+    const cliPath = resolve(__dirname, '../bin/cli.js');
+    const cmd = `node ${cliPath} load-config`;
 
-    // Persist the resolved configuration to config.json
-    writeConfJson(resolvedConf);
+    debug(`No config.json found. Running ${cmd} to generate one...`);
 
-    return resolvedConf as Config;
+    try {
+
+        // Set encoding to 'utf8' so execSync returns a string instead of a Buffer.
+        const output = execSync(cmd, {encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe']});
+
+        console.log('stdout:', output);
+
+    } catch (error: any) {
+
+        // error.stdout and error.stderr will be Buffers (or strings, if encoding was set)
+        console.error('stdout:', error.stdout?.toString());
+        console.error('stderr:', error.stderr?.toString());
+
+    }
+
+    if (attempts > 2) {
+
+        throw new Error('Failed to load configuration after multiple attempts.');
+
+    }
+
+    attempts++;
+    return getConfig();
 
 }
 
+/**
+ * Load the configuration from the project's config files and environment variables,
+ * and write the resolved configuration to config.json.
+ */
 export async function loadConfig(): Promise<void> {
 
     const env = getEnvArguments();

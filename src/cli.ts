@@ -1,29 +1,20 @@
-import {getConfig} from '.';
+import {loadConfig} from '.';
 import {writeTypeDef} from './writeTypeDef';
 
-export function runCmd(mode: string): void {
+export function run(cmd: string): void {
 
-    switch (mode) {
+    switch (cmd && cmd.trim()) {
 
         case 'write-types':
             writeTypeDef();
             break;
-        case 'preload':
-            getConfig();
+        case 'load-config':
+            loadConfig();
             break;
         default:
-            console.error(`Unknown mode: ${mode}. Available commands: write-types, preload`);
+            console.error(`Unknown command: ${cmd}. Available commands: write-types, load-config`);
             process.exit(1);
 
     }
-
-}
-
-// Allow direct execution from command line
-if (require.main === module) {
-
-    const mode = process.argv[2] ?? 'write-types';
-
-    runCmd(mode);
 
 }
