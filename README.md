@@ -1,7 +1,5 @@
 # brek
 
-(formerly lambdaconf)
-
 [![build status](https://github.com/mhweiner/lambdaconf/actions/workflows/release.yml/badge.svg)](https://github.com/mhweiner/lambdaconf/actions)
 [![SemVer](https://img.shields.io/badge/SemVer-2.0.0-blue)]()
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
@@ -174,6 +172,8 @@ Returns the configuration object.
 Preloads the configuration. Loads the configuration files from disk, merges them, resolves any loaders, and writes the final configuration to `config.json`. This is not typically called directly, but you can if you want to instead of using the CLI.
 
 # CLI
+
+You can call the binary `brek` to perform various operations. You can use `npx brek` or in your `package.json` scripts.
 
 ## `brek load-config`
 
