@@ -1,5 +1,7 @@
 # brek
 
+> ⚠️ Warning, brek v3 contains breaking changes! See the [Getting Started](docs/gettingStarted.md) guide for more information.
+
 [![build status](https://github.com/mhweiner/lambdaconf/actions/workflows/release.yml/badge.svg)](https://github.com/mhweiner/lambdaconf/actions)
 [![SemVer](https://img.shields.io/badge/SemVer-2.0.0-blue)]()
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
