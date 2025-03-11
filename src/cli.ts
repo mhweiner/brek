@@ -1,4 +1,5 @@
 import {loadConfig} from '.';
+import {deleteConfJson} from './deleteConfJson';
 import {writeTypeDef} from './writeTypeDef';
 
 export function run(cmd: string): void {
@@ -7,6 +8,7 @@ export function run(cmd: string): void {
 
         case 'write-types':
             writeTypeDef();
+            deleteConfJson(); // clear disk cache
             break;
         case 'load-config':
             loadConfig();

@@ -122,3 +122,9 @@ If you need the type interface, you can import it:
 ```typescript
 import {Config} from "brek";
 ```
+
+**Note: If the cached configuration ever gets out of date, you'll need to do one or more of the following:**
+
+- Restart your app
+- Call `brek write-types` to regenerate the type declaration file and delete the config.json file (disk cache)
+- Restart your app to clear cache in memory
