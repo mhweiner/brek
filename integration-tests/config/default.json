@@ -1,9 +1,5 @@
 {
     "foo": "bar",
-    "addResult": {"[add]": {
-        "a": 5,
-        "b": 6
-    }},
     "typeTest": {
         "array": [1, 2, 3],
         "boolean": true,
@@ -11,5 +7,9 @@
         "string": "hello",
         "object": {"key": "value"}
     },
+    "addResult": {"[add]": {
+        "a": 5,
+        "b": 6
+    }},
     "multiplyResult": {"[multiplyBy5]": 5}
 }

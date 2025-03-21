@@ -14,9 +14,15 @@ export async function resolveConf(
 
         const value = obj[key];
 
-        if (typeof value === 'object') {
+        if (typeof value === 'object' && value !== null) {
 
-            if (isLoader(value)) {
+            if (Array.isArray(value)) {
+
+                resolvedConfig[key] = await Promise.all(value.map((item) => typeof item === 'object' && item !== null
+                    ? resolveConf(item, loaders)
+                    : item));
+
+            } else if (isLoader(value)) {
 
                 resolvedConfig[key] = await resolveLoader(value, loaders);
 
