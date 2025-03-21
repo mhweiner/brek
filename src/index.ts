@@ -27,9 +27,10 @@ let attempts = 0;
 
 export function getConfig(): Config {
 
+    // 1) Load from memory cache if available
     if (resolvedConf) return resolvedConf as Config;
 
-    // Try to load from config.json first
+    // 2) Load from config.json
     const [, confRaw] = toResult(() => readFileSync(BREK_CONFIG_JSON_PATH, 'utf8'));
 
     if (confRaw) {
@@ -45,8 +46,9 @@ export function getConfig(): Config {
 
     }
 
-    // Load from project's config files and environment variables.
-    // Execute the command synchronously, which writes the resolved configuration to config.json.
+    // 3) Load from project's config files and environment variables synchronously
+    // and write the resolved configuration to config.json. Since loaders could be
+    // async, we need to run this in a child process.
     const cliPath = resolve(__dirname, '../bin/cli.js');
     const cmd = `node ${cliPath} load-config`;
 

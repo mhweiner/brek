@@ -18,6 +18,15 @@ declare module "brek" {
     export interface Config {
         'foo': string
         'addResult': string
+        'typeTest': {
+            'array': number[]
+            'boolean': boolean
+            'number': number
+            'string': string
+            'object': {
+                'key': string
+            }
+        }
         'multiplyResult': string
     }
 }`;
@@ -35,6 +44,13 @@ test('load config correctly', (assert) => {
         foo: 'bar',
         addResult: '11',
         multiplyResult: '25',
+        typeTest: {
+            array: [1, 2, 3],
+            boolean: true,
+            number: 42,
+            string: 'hello',
+            object: {key: 'value'},
+        },
     });
 
     // cleanup, delete the config.json file

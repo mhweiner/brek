@@ -208,10 +208,10 @@ BREK_DEBUG=1 ts-node src/index.ts
 
 1. Some IDEs (particularly IntelliJ/Webstorm) occasionally have some issues with caching of the generated `Conf.d.ts file` (which is stored in your `conf` folder). If you run into this problem, restarting your TS service.
 2. If you're using AWS Lambda, see the [Usage with AWS Lambda](#usage-with-aws-lambda) section.
-3. If the cached configuration ever gets out of date, you'll need to do one or more of the following:
+3. If the configuration ever gets out of date, you'll need to do one or more of the following:
 
-    - Restart your app
-    - Call `brek write-types` to regenerate the type declaration file and delete the config.json file (disk cache)
+    - Call `brek write-types` to regenerate the type declaration file and delete the disk cache (`config.json`)
+    - Make sure you're calling `brek load-config` or `loadConfig(): Promise<void>` before app startup
     - Restart your app to clear cache in memory
 
 # Support, feedback, and contributions

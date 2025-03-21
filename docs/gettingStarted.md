@@ -66,7 +66,7 @@ For example, you could add the following to your `package.json` file:
 
 To run this manually, you can run `npx brek write-types`.
 
-### 4. Optional: Typescript Configuration (tsconfig.json)
+### 4. Recommended: Typescript Configuration (tsconfig.json)
 
 If you're using Typescript, you'll need to make sure the generated `Config.d.ts` file will be picked up by your Typescript parser. One way to do this is by including it in your `include` directive like so:
 
@@ -85,11 +85,13 @@ If you're using Typescript, you'll need to make sure the generated `Config.d.ts`
 }
 ```
 
-### 5. Optional: Preload configuration
+### 5. Recommended: Clear disk cache & preload configuration
 
 The first time the configuration is accessed, it will be loaded from disk and merged, along with the resolution of any loaders.
 
 This can cause a delay in your app. To avoid this, you can preload the configuration by calling `brek load-config` before your app starts.
+
+This also deletes the cached `config.json` file, which is used to speed up subsequent loads.
 
 ```json
 {
@@ -99,7 +101,7 @@ This can cause a delay in your app. To avoid this, you can preload the configura
 }
 ```
 
-### 6. Optional: Add generated files to `.gitignore`
+### 6. Recommended: Add generated files to `.gitignore`
 
 You may want to add `config/Config.d.ts` and `config/config.json` to your `.gitignore` file to prevent them from being checked into source control.
 
