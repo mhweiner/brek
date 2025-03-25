@@ -9,30 +9,6 @@
 
 Brek is a powerful, safe, and easy-to-use configuration library for Node.js. It’s structured, typed, and designed for dynamic configuration loading, making it perfect for securely managing secrets (e.g., AWS Secrets Manager). Written in TypeScript. Sponsored by [Aeroview](https://aeroview.io).
 
-**🔒 Out-of-the-box Typescript support**
-- Turn your runtime errors into safer compile-time errors! Automatically generated Typescript type definition for configuration object
-
-**😃 Easy-to-use & stable**
-- All settings are in simple, logic free `.json` files.
-- Adds structure and organization to your configuration files
-- Easily see what is being overridden and where
-- Comprehensive yet easy to understand documentation
-- Small, modular, and unit-tested codebase written in Typescript.
-- **No dependencies**!
-
-**💪 Flexible & powerful**
-- Differentiates between concepts such as `environment`, `deployment`, and `user` and provides an out-of-the-box solution with [sensible merge strategy](#configuration-merge-strategy)
-- Provides for [overrides via CLI](#using-clienv-overrides) without polluting the CLI argument namespace
-- Fast. Runtime processing is done once during app initialization only.
-- Put [environment variables](#environment-variables-in-config-files) directly into .json files
-
-**🤖 Dynamic loading**
-- Great for AWS Secrets Manager, AWS Parameter Store, HashiCorp Vault, or custom dynamic runtime functions
-- Any custom logic lives in [loaders](#loaders), keeping your config files logic-free
-- Provides an easy sharable and reusable plugin interface for sharing or re-use
-
-# Quick Example
-
 _config/default.json_
 ```json
 {
@@ -57,7 +33,33 @@ console.log(baz.quux); // undefined and Typescript will throw an error at compil
 
 ```
 
-# Table of Contents
+---
+
+**🔒 Out-of-the-box Typescript support**
+- Turn your runtime errors into safer compile-time errors! Automatically generated Typescript type definition for configuration object
+
+**😃 Easy-to-use & stable**
+- All settings are in simple, logic free `.json` files.
+- Adds structure and organization to your configuration files
+- Easily see what is being overridden and where
+- Comprehensive yet easy to understand documentation
+- Small, modular, and unit-tested codebase written in Typescript.
+- **No dependencies**!
+
+**💪 Flexible & powerful**
+- Differentiates between concepts such as `environment`, `deployment`, and `user` and provides an out-of-the-box solution with [sensible merge strategy](#configuration-merge-strategy)
+- Provides for [overrides via CLI](#using-clienv-overrides) without polluting the CLI argument namespace
+- Fast. Runtime processing is done once during app initialization only.
+- Put [environment variables](#environment-variables-in-config-files) directly into .json files
+
+**🤖 Dynamic loading**
+- Great for AWS Secrets Manager, AWS Parameter Store, HashiCorp Vault, or custom dynamic runtime functions
+- Any custom logic lives in [loaders](#loaders), keeping your config files logic-free
+- Provides an easy sharable and reusable plugin interface for sharing or re-use
+
+---
+
+## Table of Contents
 
 - [Getting Started](docs/gettingStarted.md)
 - [Configuration Rules](#configuration-rules)
@@ -65,8 +67,8 @@ console.log(baz.quux); // undefined and Typescript will throw an error at compil
 - [Using CLI/ENV Overrides](#using-clienv-overrides)
 - [Environment Variables in Config Files](#environment-variables-in-config-files)
 - [Loaders](docs/loaders.md)
-- [API](#api)
-- [CLI](#cli)
+- [API Reference](#api-reference)
+- [CLI Reference](#cli-reference)
 - [Recommended Best Practices](#recommended-best-practices)
 - [Usage with AWS Lambda](#usage-with-aws-lambda)
 - [Debugging](#debugging)
@@ -76,11 +78,15 @@ console.log(baz.quux); // undefined and Typescript will throw an error at compil
 - [Sponsorship](#sponsorship)
 - [Other Useful Libraries](#other-useful-libraries)
 
-# Getting Started
+---
+
+## Getting Started
 
 To install and get started with `brek`, see our [Getting Started](docs/gettingStarted.md) guide.
 
-# Configuration rules
+---
+
+## Configuration rules
 
 - `default.json` is required, everything else is optional. Recommended practice is that `default.json` contains all of your "local development" settings.
 
@@ -92,7 +98,9 @@ To install and get started with `brek`, see our [Getting Started](docs/gettingSt
 
 - Arrays should be homogenous (not of mixed types).
 
-# Configuration merge strategy
+---
+
+## Configuration merge strategy
 
 Brek uses a simple and intuitive merge strategy, with the goal of making it easy to understand what is being overridden and where. You can specify configuration overrides for different environments, deployments, and users.
 
@@ -119,11 +127,15 @@ A few notes:
 
 You specify these by setting the appropriate `process.env` variables. For example, to use the `production` environment, set `NODE_ENV=production` or `ENVIRONMENT=production`.
 
-# Using CLI/env overrides
+---
+
+## Using CLI/env overrides
 
 You can use the `BREK` environment variable to override properties via CLI/ENV. `BREK` must be valid JSON. Using `jq` simplifies dynamic JSON construction, ensures proper quoting, and makes it easier to handle environment variables.
 
-## Examples
+---
+
+### Examples
 
 ```bash
 # Override the a.b property
@@ -134,7 +146,9 @@ DATABASE_URL="postgres://user:pass@localhost:5432/db"
 BREK=$(jq -n --arg db "$DATABASE_URL" '{postgres: $db}') ts-node src/index.ts
 ```
 
-# Environment variables in config files
+---
+
+## Environment variables in config files
 
 You can use environment variables as values by wrapping it in `${...}`. For example, to use environment variable `FOO`, use `${FOO}`. This will translate to `process.env.FOO`. These will always be typed as strings. Example config file:
 
@@ -144,7 +158,9 @@ You can use environment variables as values by wrapping it in `${...}`. For exam
 }
 ```
 
-# Loaders
+---
+
+## Loaders
 
 Loaders are custom functions that are called during startup (run-time). This can be used to do anything, such as fetching secrets from AWS Secrets Manager, or any other dynamic runtime operation. They can be Promise/async/await based.
 
@@ -163,38 +179,68 @@ _config/default.json_
 
 To learn more about loaders, see the [Loaders](docs/loaders.md) documentation.
 
-# API
+---
 
-## `getConfig(): Conf`
+## API Reference
+
+### `getConfig(): Conf`
 
 Returns the configuration object.
 
-## `loadConfig(): Promise<void>`
+---
+
+### `loadConfig(): Promise<void>`
 
 Preloads the configuration. Loads the configuration files from disk, merges them, resolves any loaders, and writes the final configuration to `config.json`. This is not typically called directly, but you can if you want to instead of using the CLI.
 
-# CLI
+---
+
+## CLI Reference
 
 You can call the binary `brek` to perform various operations. You can use `npx brek` or in your `package.json` scripts.
 
-## `brek load-config`
+---
+
+### `brek load-config`
 
 Preloads the configuration. Loads the configuration files from disk, merges them, resolves any loaders, and writes the final configuration to `config.json`.
 
-## `brek write-types`
+---
+
+### `brek write-types`
 
 Writes the types to `config/Config.d.ts` unless otherwise specified. This must be called whenever `default.json` is changed.
 
-# Recommended best practices
+---
+
+## Recommended best practices
 
 - `default.json` should contain all of your local development settings, and then "progressively enhance" from there.
 - Use AWS Secrets Manager or Hashicorp Vault to store your sensitive information and use a [loader](#loaders) to load them.
 
-# Usage with AWS Lambda
+---
+
+## Usage with AWS Lambda
 
 AWS Lambda has a read-only file system, except for the temporary `/tmp` directory, which is writable. To handle this, set the environment variable `BREK_WRITE_DIR` to `/tmp`.
 
-# Debugging
+You may also want to run `brek load-config` after your build step. Example:
+
+```json
+{
+  "scripts": {
+    "build": "tsc",
+    "load-config": "ENVIRONMENT=prod BREK_WRITE_DIR=/tmp brek load-config",
+    "prepare": "npm run build && npm run load-config"
+  }
+}
+```
+
+If the loaders must be executed during runtime, then you can use the `await loadConfig()` method in your Lambda handler to ensure the configuration is loaded before your function executes. Don't forget to include `BREK_WRITE_DIR=/tmp` in your Lambda environment variables.
+
+---
+
+## Debugging
 
 You can set the `BREK_DEBUG` environment variable to see debug output. Example:
 
@@ -204,7 +250,9 @@ BREK_DEBUG=1 ts-node src/index.ts
 
 > Use with caution! This may output sensitive information to the console.
 
-# Known issues
+---
+
+## Known issues
 
 1. Some IDEs (particularly IntelliJ/Webstorm) occasionally have some issues with caching of the generated `Conf.d.ts file` (which is stored in your `conf` folder). If you run into this problem, restarting your TS service.
 2. If you're using AWS Lambda, see the [Usage with AWS Lambda](#usage-with-aws-lambda) section.
@@ -214,18 +262,23 @@ BREK_DEBUG=1 ts-node src/index.ts
     - Make sure you're calling `brek load-config` or `loadConfig(): Promise<void>` before app startup
     - Restart your app to clear cache in memory
 
-# Support, feedback, and contributions
+---
 
-- Star this repo if you like it!
-- Submit an [issue](https://github.com/mhweiner/brek/issues) with your problem, feature request or bug report
-- Issue a PR against `main` and request review. Make sure all tests pass and coverage is good.
-- Write about this project in your blog, tweet about it, or share it with your friends!
+## Contributing
 
-# Why is it called brek?
+- ⭐ Star this repo if you like it!
+- 🐛 Open an [issue](https://github.com/mhweiner/tiny-pg-builder/issues) for bugs or suggestions.
+- 🤝 Submit a PR to `main` — all tests must pass.
+
+---
+
+## Why is it called brek?
 
 **Brek** stands for **B**locking **R**esolution of **E**nvironment **K**eys. TBH, it just sounded cool and was available on NPM 😄.
 
-# Sponsorship
+---
+
+# Sponsors
 <br>
 <picture>
     <source srcset="docs/aeroview-white.svg" media="(prefers-color-scheme: dark)">
@@ -238,7 +291,9 @@ Aeroview is a lightning-fast, developer-friendly, and AI-powered logging IDE. Ge
 
 Want to sponsor this project? [Reach out](mailto:mhweiner234@gmail.com?subject=I%20want%20to%20sponsor%20brek).
 
-# Other useful libraries
+---
+
+## Other useful libraries
 
 - [autorel](https://github.com/mhweiner/autorel): Automate semantic releases based on conventional commits. Similar to semantic-release but much simpler.
 - [hoare](https://github.com/mhweiner/hoare): An easy-to-use, fast, and defensive JS/TS test runner designed to help you to write simple, readable, and maintainable tests.

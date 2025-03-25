@@ -12,7 +12,7 @@ npm i brek
 
 ### 2. Create `config` directory and configuration files
 
-Create a directory called `config` in the root of your project. This is where your configuration will go, along with the generated Conf.d.ts TypeScript Declaration File. 
+Create a directory called `config` in the root of your project. This is where your configuration will go, along with the generated Config.d.ts TypeScript Declaration File. 
 
 > Note: If you want to use a different directory, you can set the `BREK_CONFIG_DIR` environment variable to the path of your configuration directory.
 
@@ -73,7 +73,7 @@ If you're using Typescript, you'll need to make sure the generated `Config.d.ts`
 ```json
   "include":[
     "src/**/*",
-    "config/Conf.d.ts" // modify this if your config directory is different
+    "config/Config.d.ts" // modify this if your config directory is different
   ],
 ```
 
