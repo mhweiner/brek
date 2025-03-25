@@ -84,8 +84,6 @@ console.log(baz.quux); // undefined and Typescript will throw an error at compil
 
 To install and get started with `brek`, see our [Getting Started](docs/gettingStarted.md) guide.
 
----
-
 ## Configuration rules
 
 - `default.json` is required, everything else is optional. Recommended practice is that `default.json` contains all of your "local development" settings.
@@ -97,8 +95,6 @@ To install and get started with `brek`, see our [Getting Started](docs/gettingSt
 - [Loaders](#loaders) always must return a string. If you need to return a different type, you can use `JSON.parse()` or similar.
 
 - Arrays should be homogenous (not of mixed types).
-
----
 
 ## Configuration merge strategy
 
@@ -128,13 +124,9 @@ A few notes:
 
 You specify these by setting the appropriate `process.env` variables. For example, to use the `production` environment, set `NODE_ENV=production` or `ENVIRONMENT=production`.
 
----
-
 ## Using CLI/env overrides
 
 You can use the `BREK` environment variable to override properties via CLI/ENV. `BREK` must be valid JSON. Using `jq` simplifies dynamic JSON construction, ensures proper quoting, and makes it easier to handle environment variables.
-
----
 
 ### Examples
 
@@ -147,8 +139,6 @@ DATABASE_URL="postgres://user:pass@localhost:5432/db"
 BREK=$(jq -n --arg db "$DATABASE_URL" '{postgres: $db}') ts-node src/index.ts
 ```
 
----
-
 ## Environment variables in config files
 
 You can use environment variables as values by wrapping it in `${...}`. For example, to use environment variable `FOO`, use `${FOO}`. This will translate to `process.env.FOO`. These will always be typed as strings. Example config file:
@@ -158,8 +148,6 @@ You can use environment variables as values by wrapping it in `${...}`. For exam
   "foo": "${FOO}"
 }
 ```
-
----
 
 ## Loaders
 
@@ -180,7 +168,6 @@ _config/default.json_
 
 To learn more about loaders, see the [Loaders](docs/loaders.md) documentation.
 
----
 
 ## API Reference
 
@@ -194,13 +181,9 @@ Returns the configuration object.
 
 Preloads the configuration. Loads the configuration files from disk, merges them, resolves any loaders, and writes the final configuration to `config.json`. This is not typically called directly, but you can if you want to instead of using the CLI.
 
----
-
 ## CLI Reference
 
 You can call the binary `brek` to perform various operations. You can use `npx brek` or in your `package.json` scripts.
-
----
 
 ### `brek load-config`
 
@@ -212,14 +195,10 @@ Preloads the configuration. Loads the configuration files from disk, merges them
 
 Writes the types to `config/Config.d.ts` unless otherwise specified. This must be called whenever `default.json` is changed.
 
----
-
 ## Recommended best practices
 
 - `default.json` should contain all of your local development settings, and then "progressively enhance" from there.
 - Use AWS Secrets Manager or Hashicorp Vault to store your sensitive information and use a [loader](#loaders) to load them.
-
----
 
 ## Usage with AWS Lambda
 
@@ -239,8 +218,6 @@ You may also want to run `brek load-config` after your build step. Example:
 
 If the loaders must be executed during runtime, then you can use the `await loadConfig()` method in your Lambda handler to ensure the configuration is loaded before your function executes. Don't forget to include `BREK_WRITE_DIR=/tmp` in your Lambda environment variables.
 
----
-
 ## Debugging
 
 You can set the `BREK_DEBUG` environment variable to see debug output. Example:
@@ -250,8 +227,6 @@ BREK_DEBUG=1 ts-node src/index.ts
 ```
 
 > Use with caution! This may output sensitive information to the console.
-
----
 
 ## Known issues
 
@@ -263,23 +238,17 @@ BREK_DEBUG=1 ts-node src/index.ts
     - Make sure you're calling `brek load-config` or `loadConfig(): Promise<void>` before app startup
     - Restart your app to clear cache in memory
 
----
-
 ## Contributing
 
 - ⭐ Star this repo if you like it!
 - 🐛 Open an [issue](https://github.com/mhweiner/tiny-pg-builder/issues) for bugs or suggestions.
 - 🤝 Submit a PR to `main` — all tests must pass.
 
----
-
 ## Why is it called brek?
 
 **Brek** stands for **B**locking **R**esolution of **E**nvironment **K**eys. TBH, it just sounded cool and was available on NPM 😄.
 
----
-
-# Sponsors
+## Sponsors
 <br>
 <picture>
     <source srcset="docs/aeroview-white.svg" media="(prefers-color-scheme: dark)">
@@ -291,8 +260,6 @@ BREK_DEBUG=1 ts-node src/index.ts
 Aeroview is a lightning-fast, developer-friendly, and AI-powered logging IDE. Get started for free at [https://aeroview.io](https://aeroview.io).
 
 Want to sponsor this project? [Reach out](mailto:mhweiner234@gmail.com?subject=I%20want%20to%20sponsor%20brek).
-
----
 
 ## Other useful libraries
 
