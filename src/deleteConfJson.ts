@@ -8,7 +8,11 @@ export function deleteConfJson(): void {
 
     const filepath = resolve(BREK_WRITE_DIR, 'config.json');
 
-    debug('deleting disk cache', filepath);
-    fs.unlinkSync(filepath);
+    if (fs.existsSync(filepath)) {
+
+        debug('deleting disk cache', filepath);
+        fs.unlinkSync(filepath);
+
+    }
 
 }
