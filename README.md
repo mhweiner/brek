@@ -114,14 +114,15 @@ Configurations are merged in this order, with the later ones overriding the earl
 
 Which of these sources to choose depends on the presence of certain `process.env` configuration variables:
 
-| **process.env**              | **conf file**                         |
-| ---------------------------- | --------------------------------------|
-| `NODE_ENV` or `ENVIRONMENT`  | `/conf/environments/[ENVIRONMENT].json`  |
-| `DEPLOYMENT`                 | `/conf/deployments/[DEPLOYMENT].json` |
-| `USER`                       | `/conf/users/[USER].json`             |
+| **process.env**              | **conf file**                          |
+| ---------------------------- | ---------------------------------------|
+| `ENVIRONMENT`, `NODE_ENV`    | `/conf/environments/[ENVIRONMENT].json`|
+| `DEPLOYMENT`                 | `/conf/deployments/[DEPLOYMENT].json`  |
+| `USER`                       | `/conf/users/[USER].json`              |
 
 A few notes:
 
+- `ENVIRONMENT` takes precedence over `NODE_ENV` if both are set. This is useful for local development, or to not be tied to the `NODE_ENV` convention (ie, if you have a package that uses `NODE_ENV` for something else).
 - `USER` is usually provided by default by UNIX environments (try `console.log(process.env.USER)`)
 - Arrays and loaders are simply replaced, not merged.
 
