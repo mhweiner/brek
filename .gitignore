@@ -5,3 +5,4 @@ dist
 .nyc_output
 coverage
 .vscode
+integration-tests/config/Config.d.ts

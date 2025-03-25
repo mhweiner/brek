@@ -35,7 +35,11 @@ export class LoaderNotFound extends Error {
 
     constructor(loaderName: string, availableLoaders: LoaderDict) {
 
-        super(`LOADER_NOT_FOUND: "${loaderName}". Available loaders: ${Object.keys(availableLoaders).join(', ')}`);
+        const availArr = Object.keys(availableLoaders);
+        const availStr = availArr.length ? availArr.join(', ') : 'none';
+        const errMsg = `LOADER_NOT_FOUND: "${loaderName}". Available loaders: ${availStr}`;
+
+        super(errMsg);
         Error.captureStackTrace(this, LoaderNotFound);
 
     }

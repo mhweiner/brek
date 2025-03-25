@@ -4,7 +4,7 @@ import {resolveConf} from './resolveConf';
 test('if no loaders or environment variables present, should return same result back', async (assert) => {
 
     // given
-    const unresolvedConfig = {foo: 'bar'};
+    const unresolvedConfig = {foo: 'bar', arr: [1, 2, 3], obj: {a: 1, b: 2}};
 
     // when
     const output = await resolveConf(unresolvedConfig, {});
@@ -13,7 +13,6 @@ test('if no loaders or environment variables present, should return same result 
     assert.equal(output, unresolvedConfig);
 
 });
-
 test('should resolve environment variable', async (assert) => {
 
     // given
@@ -45,7 +44,6 @@ test('should resolve environment variable', async (assert) => {
     assert.equal(output, expected);
 
 });
-
 test('config with a loader should resolve', async (assert) => {
 
     // given

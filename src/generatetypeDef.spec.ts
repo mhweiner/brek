@@ -12,9 +12,9 @@ test('generateTypeDef with a flat configuration object', (assert) => {
 
     const result = generateTypeDef(config);
     const expected = `
-import {Conf} from "brek";
+import {Config} from "brek";
 declare module "brek" {
-    export interface Conf {
+    export interface Config {
         'foo': string
         'count': number
         'isEnabled': boolean
@@ -44,9 +44,9 @@ test('generateTypeDef with a nested configuration object', (assert) => {
 
     const result = generateTypeDef(config);
     const expected = `
-import {Conf} from "brek";
+import {Config} from "brek";
 declare module "brek" {
-    export interface Conf {
+    export interface Config {
         'database': {
             'host': string
             'port': number
@@ -69,7 +69,7 @@ declare module "brek" {
 test('generateTypeDef infers \'string\' for loader values', (assert) => {
 
     const config = {
-        mongoDB: {
+        mongoDb: {
             '[fetchSecret]': {
                 key: 'MONGODB_URI',
             },
@@ -78,10 +78,10 @@ test('generateTypeDef infers \'string\' for loader values', (assert) => {
 
     const result = generateTypeDef(config);
     const expected = `
-import {Conf} from "brek";
+import {Config} from "brek";
 declare module "brek" {
-    export interface Conf {
-        'mongoDB': string
+    export interface Config {
+        'mongoDb': string
     }
 }`;
 

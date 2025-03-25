@@ -10,9 +10,9 @@ const indent = (depth: number) => Array(depth * 4).fill(' ').join('');
 export function generateTypeDef(config: Record<string, any>): string {
 
     return `
-import {Conf} from "brek";
+import {Config} from "brek";
 declare module "brek" {
-    export interface Conf {
+    export interface Config {
 ${props(config)}
     }
 }`;

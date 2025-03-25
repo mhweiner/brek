@@ -1,13 +1,16 @@
 import {test} from 'hoare';
 import {mergeConfs} from './mergeConfs';
 
-test('identity case: just default (no loaders)', (assert) => {
+test('If only Default is given and no loaders, output should be same as default', (assert) => {
 
     // given
     const confs = {
         Default: {
             foo1: 'bar',
             foo2: 42,
+            foo3: true,
+            foo4: null,
+            foo5: [1, 2, 3],
         },
     };
 
@@ -15,7 +18,7 @@ test('identity case: just default (no loaders)', (assert) => {
     const mergedConf = mergeConfs(confs);
 
     // then
-    assert.equal(mergedConf, confs.Default, 'output should be same as default');
+    assert.equal(mergedConf, confs.Default);
 
 });
 

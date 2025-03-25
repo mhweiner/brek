@@ -1,31 +1,29 @@
 # brek
 
-(formerly lambdaconf)
+> ⚠️ Warning, brek v3 contains breaking changes! See the [Getting Started](docs/gettingStarted.md) guide for more information.
 
 [![build status](https://github.com/mhweiner/lambdaconf/actions/workflows/release.yml/badge.svg)](https://github.com/mhweiner/lambdaconf/actions)
 [![SemVer](https://img.shields.io/badge/SemVer-2.0.0-blue)]()
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 [![Static Badge](https://img.shields.io/badge/v2-autorel?label=autorel&labelColor=0ab5fc&color=grey&link=https%3A%2F%2Fgithub.com%2Fmhweiner%2Fautorel)](https://github.com/mhweiner/autorel)
 
-**Brek** stands for **B**locking **R**esolution of **E**nvironment **K**eys.
-
-Brek is a powerful yet simple configuration library for Node.js. It’s structured, typed, and designed for dynamic configuration loading, making it perfect for securely managing secrets (e.g., AWS Secrets Manager). Written in TypeScript for safety and ease of use. Sponsored by [Aeroview](https://aeroview.io).
+Brek is a powerful, safe, and easy-to-use configuration library for Node.js. It’s structured, typed, and designed for dynamic configuration loading, making it perfect for securely managing secrets (e.g., AWS Secrets Manager). Written in TypeScript. Sponsored by [Aeroview](https://aeroview.io).
 
 **🔒 Out-of-the-box Typescript support**
 - Turn your runtime errors into safer compile-time errors! Automatically generated Typescript type definition for configuration object
-- Any override must satisfy `Partial<DefaultConfig>` type, or it will throw a Typescript error
 
-**😃 Simple, easy-to-use, safe, and stable**
+**😃 Easy-to-use & stable**
 - All settings are in simple, logic free `.json` files.
 - Adds structure and organization to your configuration files
 - Easily see what is being overridden and where
 - Comprehensive yet easy to understand documentation
-- Small, modular, and unit-tested codebase written in Typescript **with no dependencies**.
+- Small, modular, and unit-tested codebase written in Typescript.
+- **No dependencies**!
 
 **💪 Flexible & powerful**
-- Differentiates between concepts such as `environment`, `deployment`, and `user` and provides an out-of-the-box solution with sensible merge strategy
-- Provides for overrides via CLI without polluting the CLI argument namespace
-- Fast. Runtime processing is done during app initialization only.
+- Differentiates between concepts such as `environment`, `deployment`, and `user` and provides an out-of-the-box solution with [sensible merge strategy](#configuration-merge-strategy)
+- Provides for [overrides via CLI](#using-clienv-overrides) without polluting the CLI argument namespace
+- Fast. Runtime processing is done once during app initialization only.
 - Put [environment variables](#environment-variables-in-config-files) directly into .json files
 
 **🤖 Dynamic loading**
@@ -33,162 +31,60 @@ Brek is a powerful yet simple configuration library for Node.js. It’s structur
 - Any custom logic lives in [loaders](#loaders), keeping your config files logic-free
 - Provides an easy sharable and reusable plugin interface for sharing or re-use
 
-# Installation & Setup
+# Quick Example
 
-## 1. Install from `npm`
-
-```shell
-npm i brek
-```
-
-## 2. Create `conf` directory
-
-Create a directory called `conf` in the root of your project. This is where your configuration will go, along with the generated Conf.d.ts TypeScript Declaration File. 
-
-> Note: If you want to use a different directory, you can set the `BREK_CONF_DIR` environment variable to the path of your configuration directory.
-
-Here's an example `conf` folder:
-
-```shell script
-root/
-└── conf/
-    └── deployments
-        └── test.acme.json
-    └── environments
-        └── development.json
-        └── production.json
-    └── users
-        └── john.json
-    └── default.json
-```
-
-At a minimum, `default.json` is required at the root of your `conf` folder. To learn more about the other folders, see [merge strategy](#configuration-merge-strategy) and [configuration rules](#configuration-rules)
-
-## 3. Create your configuration files
-
-Here's a simple example:
-
-__default.json__
+_config/default.json_
 ```json
 {
-  "postgres": {
-    "host": "localhost",
-    "port": 5432,
-    "user": "pguser"
-  }
-  "port": 3000,
-  "foo": {
-    "bar": true
+  "foo": "bar",
+  "baz": {
+    "qux": 42
   }
 }
 ```
 
-At a minimum, `default.json` is required at the root of your `conf` folder. 
-
-See [full configuration rules](#configuration-rules), [merge strategy](#configuration-overrides-and-merge-strategy), and reference the example folder structure above. Also, don't forget to check out [loaders](#loaders) for dynamic runtime configuration.
-
-## 4. Typescript Configuration (tsconfig.json)
-
-Make sure the generated `conf/Conf.d.ts` file will be picked up by your Typescript parser. One way to do this is by including it in your `include` directive like so:
-
-```json
-  "include":[
-    "src/**/*",
-    "conf/Conf.d.ts"
-  ],
-```
-
- If you're using `ts-node`, it might help to add the following:
-
-```json
-"ts-node": {
-  "files": true
-}
-```
-
-## 5. Call `brek` when your configuration changes to generate the type declaration file
-
-Whenever your `default.json` configuration changes, you'll need to run the `brek` command to build the type declaration file. For example, you could add the following to your `package.json` file:
-    
-  ```json
-  {
-    "scripts": {
-      "prepare": "brek"
-    }
-  }
-  ```
-
-To run this manually, you can run `npx brek`. This will generate the `Conf.d.ts` file in your `conf` folder.
-
-## 6. Optional: Add generated files to `.gitignore`
-
-You may want to add `conf/Conf.d.ts` and `conf/conf.json` to your `.gitignore` file to prevent them from being checked into source control.
-
-# Loading the configuration
-
-Before you can read the configuration within your app, you must first *load* it. This step involves reading the files from disk, merging them, and resolving any [loaders](#loaders). You have two options:
-
-1. Use `loadConf()` within your app to load the configuration asynchronously before your app starts.
-
-2. Use `loadConf()` in a script to generate the `conf.json` configuration file before running your app.
-
-Here's an example of using `loadConf()` in your app:
-
+_blah.ts_
 ```typescript
-import {loadConf, getConf} from "brek";
+import {getConfig} from "brek";
 
-loadConf() // optionally pass in loaders and options here
-    .then(() => {
-        const conf = getConf();
-        console.log(conf);
-        // start your server, etc.
-    })
-    .catch(console.log.bind(console));
+const {foo, baz} = getConfig();
+
+console.log(foo); // "bar"
+console.log(baz.qux); // 42
+console.log(baz.quux); // undefined and Typescript will throw an error at compile time
+
+// Enjoy full autocompletion and type safety! 🚀
+
 ```
 
-Here's an example of using `loadConf()` in an init script:
+# Table of Contents
 
-```typescript
-import {loadConf} from "brek";
+- [Getting Started](docs/gettingStarted.md)
+- [Configuration Rules](#configuration-rules)
+- [Configuration Merge Strategy](#configuration-merge-strategy)
+- [Using CLI/ENV Overrides](#using-clienv-overrides)
+- [Environment Variables in Config Files](#environment-variables-in-config-files)
+- [Loaders](docs/loaders.md)
+- [API](#api)
+- [CLI](#cli)
+- [Recommended Best Practices](#recommended-best-practices)
+- [Usage with AWS Lambda](#usage-with-aws-lambda)
+- [Debugging](#debugging)
+- [Known Issues](#known-issues)
+- [Support, Feedback, and Contributions](#support-feedback-and-contributions)
+- [Why is it called brek?](#why-is-it-called-brek)
+- [Sponsorship](#sponsorship)
+- [Other Useful Libraries](#other-useful-libraries)
 
-loadConf()  // optionally pass in loaders here
-    .then(() => {
-        console.log("Configuration loaded successfully and written to conf.json");
-    })
-    .catch(console.log.bind(console));
-```
+# Getting Started
 
-```bash
-ts-node init.ts && ts-node src/index.ts
-```
-
-# Getting the config object
-
-Once loaded, use `getConf` to access the configuration object. The configuration is cached after the first load, so you can call `getConf` as many times as you want without worrying about performance.
-
-Example:
-
-```typescript
-import {getConf} from "brek";
-
-const conf = getConf(); // type of Conf
-
-console.log(conf); // logs config object
-
-const isFooBarEnabled: boolean = conf.foo.bar; // will throw Typescript error as expected if does not exist or is not a boolean
-```
-
-If you need the type interface, you can import it:
-
-```typescript
-import {Conf} from "brek";
-```
+To install and get started with `brek`, see our [Getting Started](docs/gettingStarted.md) guide.
 
 # Configuration rules
 
 - `default.json` is required, everything else is optional. Recommended practice is that `default.json` contains all of your "local development" settings.
 
-- All configuration files must be a subset of `default.json`. Think of them simply as overrides to the default. In Typescript terms, conf files must be of type `Partial<Conf>`.
+- All configuration files must be a subset of `default.json`. Think of them simply as overrides to the default. In Typescript terms, configuration files must be of type `Partial<Config>`.
 
 - A property's type should not change simply because of a different environment, user, or deployment. This is basically saying the same as above.
 
@@ -198,30 +94,30 @@ import {Conf} from "brek";
 
 # Configuration merge strategy
 
+Brek uses a simple and intuitive merge strategy, with the goal of making it easy to understand what is being overridden and where. You can specify configuration overrides for different environments, deployments, and users.
+
 Configurations are merged in this order, with the later ones overriding the earlier ones:
  
 1. default.json
 2. environment file
 3. deployment file
 4. user file
-5. CLI/env overrides
+5. [CLI/env overrides](#using-clienv-overrides)
 
 Which of these sources to choose depends on the presence of certain `process.env` configuration variables:
 
-| **process.env**         | **conf file**                         |
-| ----------------------- | --------------------------------------|
-| `NODE_ENV`              | `/conf/environments/[NODE_ENV].json`  |
-| `DEPLOYMENT`            | `/conf/deployments/[DEPLOYMENT].json` |
-| `USER`                  | `/conf/users/[USER].json`             |
-| `BREK`                  | N/A                                   |
-| `OVERRIDE` (deprecated) | N/A                                   |
+| **process.env**              | **conf file**                         |
+| ---------------------------- | --------------------------------------|
+| `NODE_ENV` or `ENVIRONMENT`  | `/conf/environments/[ENVIRONMENT].json`  |
+| `DEPLOYMENT`                 | `/conf/deployments/[DEPLOYMENT].json` |
+| `USER`                       | `/conf/users/[USER].json`             |
 
 A few notes:
 
-- `BREK` must be valid JSON. [Learn more](#using-cli-overrides)
 - `USER` is usually provided by default by UNIX environments (try `console.log(process.env.USER)`)
-- [Loaders](#loaders) parameters are simply replaced, not merged. A `loader` instance is treated as a primitive.
-- Arrays are simply replaced, not merged.
+- Arrays and loaders are simply replaced, not merged.
+
+You specify these by setting the appropriate `process.env` variables. For example, to use the `production` environment, set `NODE_ENV=production` or `ENVIRONMENT=production`.
 
 # Using CLI/env overrides
 
@@ -252,69 +148,51 @@ You can use environment variables as values by wrapping it in `${...}`. For exam
 
 Loaders are custom functions that are called during startup (run-time). This can be used to do anything, such as fetching secrets from AWS Secrets Manager, or any other dynamic runtime operation. They can be Promise/async/await based.
 
-## Example
+Quick example:
 
-_conf/default.json_
+_config/default.json_
 ```json
 {
   "foo": {
     "[fetchSecret]": {
       "key": "demo"
-    }   
-  },
-  "bar": {
-    "[add10]": 42
+    }
   }
 }
 ```
-_index.ts_
 
-```typescript
-import {loadConfig, getConf} from "brek";
-
-const loaders = {
-    fetchSecret: (params: {key: string}) => Promise.resolve(`secret_${a}`),
-    add10: (val: number) => String(val + 10),
-};
-
-loadConfig(loaders)
-    .then(() => {
-        console.log(getConf().foo); // "secret_demo"
-        console.log(getConf().bar); // "52"
-        //start server, etc.
-    })
-    .catch(console.log.bind(console));
-```
-
-## Usage
-
-Loader functions must extend `(params: any) => string`. If helpful, you can import the `Loader` type like so:
-
-```typescript
-import type {Loader} from 'brek';
-```
-
-In a conf file, any object with a single property matching the pattern wrapped in square brackets (`[...]`) is assumed to be a loader. The key is the loader name, and the value is the parameter passed to the loader.
-
-If a matching loader is not found, it will throw a `LoaderNotFound` error. Loaders must return strings.
+To learn more about loaders, see the [Loaders](docs/loaders.md) documentation.
 
 # API
 
-## `loadConf(loaders?: Loaders): Promise<void>`
+## `getConfig(): Conf`
 
-Loads the configuration files from disk, merges them, resolves any loaders,
-and writes the final configuration to `conf.json`. This function must be called before `getConf()`.
+Returns the configuration object.
 
-- `loaders` (optional): An object containing loader functions. The key is the loader name, and the value is the loader function.
+## `loadConfig(): Promise<void>`
 
-## `getConf(): Conf`
+Preloads the configuration. Loads the configuration files from disk, merges them, resolves any loaders, and writes the final configuration to `config.json`. This is not typically called directly, but you can if you want to instead of using the CLI.
 
-Returns the configuration object. This function must be called after `loadConf()`.
+# CLI
+
+You can call the binary `brek` to perform various operations. You can use `npx brek` or in your `package.json` scripts.
+
+## `brek load-config`
+
+Preloads the configuration. Loads the configuration files from disk, merges them, resolves any loaders, and writes the final configuration to `config.json`.
+
+## `brek write-types`
+
+Writes the types to `config/Config.d.ts` unless otherwise specified. This must be called whenever `default.json` is changed.
 
 # Recommended best practices
 
 - `default.json` should contain all of your local development settings, and then "progressively enhance" from there.
 - Use AWS Secrets Manager or Hashicorp Vault to store your sensitive information and use a [loader](#loaders) to load them.
+
+# Usage with AWS Lambda
+
+AWS Lambda has a read-only file system, except for the temporary `/tmp` directory, which is writable. To handle this, set the environment variable `BREK_WRITE_DIR` to `/tmp`.
 
 # Debugging
 
@@ -329,6 +207,12 @@ BREK_DEBUG=1 ts-node src/index.ts
 # Known issues
 
 1. Some IDEs (particularly IntelliJ/Webstorm) occasionally have some issues with caching of the generated `Conf.d.ts file` (which is stored in your `conf` folder). If you run into this problem, restarting your TS service.
+2. If you're using AWS Lambda, see the [Usage with AWS Lambda](#usage-with-aws-lambda) section.
+3. If the configuration ever gets out of date, you'll need to do one or more of the following:
+
+    - Call `brek write-types` to regenerate the type declaration file and delete the disk cache (`config.json`)
+    - Make sure you're calling `brek load-config` or `loadConfig(): Promise<void>` before app startup
+    - Restart your app to clear cache in memory
 
 # Support, feedback, and contributions
 
@@ -336,6 +220,10 @@ BREK_DEBUG=1 ts-node src/index.ts
 - Submit an [issue](https://github.com/mhweiner/brek/issues) with your problem, feature request or bug report
 - Issue a PR against `main` and request review. Make sure all tests pass and coverage is good.
 - Write about this project in your blog, tweet about it, or share it with your friends!
+
+# Why is it called brek?
+
+**Brek** stands for **B**locking **R**esolution of **E**nvironment **K**eys. TBH, it just sounded cool and was available on NPM 😄.
 
 # Sponsorship
 <br>
@@ -357,7 +245,3 @@ Want to sponsor this project? [Reach out](mailto:mhweiner234@gmail.com?subject=I
 - [jsout](https://github.com/mhweiner/jsout): A Syslog-compatible, small, and simple logger for Typescript/Javascript projects.
 - [cjs-mock](https://github.com/mhweiner/cjs-mock): NodeJS module mocking for CJS (CommonJS) modules for unit testing purposes.
 - [typura](https://github.com/aeroview/typura): Simple and extensible runtime input validation for TS/JS, written in TS.
-
-# License
-
-[MIT](LICENSE)
