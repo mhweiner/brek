@@ -1,7 +1,5 @@
 # brek
 
-> ⚠️ Warning, brek v3 contains breaking changes! See the [Getting Started](docs/gettingStarted.md) guide for more information.
-
 [![build status](https://github.com/mhweiner/lambdaconf/actions/workflows/release.yml/badge.svg)](https://github.com/mhweiner/lambdaconf/actions)
 [![SemVer](https://img.shields.io/badge/SemVer-2.0.0-blue)]()
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
@@ -230,11 +228,11 @@ BREK_DEBUG=1 ts-node src/index.ts
 
 ## Known issues
 
-1. Some IDEs (particularly IntelliJ/Webstorm) occasionally have some issues with caching of the generated `Conf.d.ts file` (which is stored in your `conf` folder). If you run into this problem, restarting your TS service.
+1. Some IDEs (particularly IntelliJ/Webstorm) occasionally have some issues with caching of the generated `Config.d.ts file` (which is stored in your `config` folder). If you run into this problem, restarting your TS service.
 2. If you're using AWS Lambda, see the [Usage with AWS Lambda](#usage-with-aws-lambda) section.
-3. If the configuration ever gets out of date, you'll need to do one or more of the following:
+3. If the iguration ever gets out of date, you'll need to do one or more of the following:
 
-    - Call `brek write-types` to regenerate the type declaration file and delete the disk cache (`config.json`)
+    - Call `brek write-types` to regenerate the type declaration file and delete the disk cache (`ig.json`)
     - Make sure you're calling `brek load-config` or `loadConfig(): Promise<void>` before app startup
     - Restart your app to clear cache in memory
 
