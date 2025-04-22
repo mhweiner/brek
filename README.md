@@ -5,7 +5,7 @@
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 [![AutoRel](https://img.shields.io/badge/v2-AutoRel?label=AutoRel&labelColor=0ab5fc&color=grey&link=https%3A%2F%2Fgithub.com%2Fmhweiner%2Fautorel)](https://github.com/mhweiner/autorel)
 
-**brek** is a powerful, safe, and easy-to-use configuration library for Node.js. It’s structured, typed, and designed for dynamic configuration loading, making it perfect for securely managing secrets (e.g., [AWS Secrets Manager](https://github.com/mhweiner/brek-loader-aws-secrets-manager)).
+**brek** is a structured, typed config loader for Node.js — ideal for dynamic environments and securely managing secrets like those in [AWS Secrets Manager](https://github.com/mhweiner/brek-loader-aws-secrets-manager).
 
 _config/default.json_
 ```json
