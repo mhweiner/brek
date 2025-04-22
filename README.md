@@ -15,7 +15,7 @@ _config/default.json_
     "qux": 42
   },
   "quux": {
-    "[fetchSecret]": {"key": "demo"}
+    "[awsSecret]": {"key": "demo"}
   }
 }
 ```
