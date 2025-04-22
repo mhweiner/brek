@@ -28,7 +28,8 @@ const {foo, baz} = getConfig();
 
 console.log(foo); // "bar"
 console.log(baz.qux); // 42
-console.log(baz.quux); // undefined and Typescript will throw an error at compile time
+console.log(baz.quux); // "secret_demo"
+console.log(baz.jazz); // undefined and Typescript will throw an error at compile time
 
 // Enjoy full autocompletion and type safety! 🚀
 
