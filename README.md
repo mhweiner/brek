@@ -1,11 +1,11 @@
 # brek
 
-[![build status](https://github.com/mhweiner/lambdaconf/actions/workflows/release.yml/badge.svg)](https://github.com/mhweiner/lambdaconf/actions)
+[![build status](https://github.com/mhweiner/brek/actions/workflows/release.yml/badge.svg)](https://github.com/mhweiner/pgsmith/actions)
 [![SemVer](https://img.shields.io/badge/SemVer-2.0.0-blue)]()
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
-[![Static Badge](https://img.shields.io/badge/v2-autorel?label=autorel&labelColor=0ab5fc&color=grey&link=https%3A%2F%2Fgithub.com%2Fmhweiner%2Fautorel)](https://github.com/mhweiner/autorel)
+[![AutoRel](https://img.shields.io/badge/v2-AutoRel?label=AutoRel&labelColor=0ab5fc&color=grey&link=https%3A%2F%2Fgithub.com%2Fmhweiner%2Fautorel)](https://github.com/mhweiner/autorel)
 
-Brek is a powerful, safe, and easy-to-use configuration library for Node.js. It’s structured, typed, and designed for dynamic configuration loading, making it perfect for securely managing secrets (e.g., AWS Secrets Manager). Written in TypeScript. Sponsored by [Aeroview](https://aeroview.io).
+**brek** is a powerful, safe, and easy-to-use configuration library for Node.js. It’s structured, typed, and designed for dynamic configuration loading, making it perfect for securely managing secrets (e.g., [AWS Secrets Manager](https://github.com/mhweiner/brek-loader-aws-secrets-manager)).
 
 _config/default.json_
 ```json
@@ -13,6 +13,9 @@ _config/default.json_
   "foo": "bar",
   "baz": {
     "qux": 42
+  },
+  "quux": {
+    "[fetchSecret]": {"key": "demo"}
   }
 }
 ```
@@ -239,25 +242,12 @@ BREK_DEBUG=1 ts-node src/index.ts
 ## Contributing
 
 - ⭐ Star this repo if you like it!
-- 🐛 Open an [issue](https://github.com/mhweiner/tiny-pg-builder/issues) for bugs or suggestions.
+- 🐛 Open an [issue](https://github.com/mhweiner/brek/issues) for bugs or suggestions.
 - 🤝 Submit a PR to `main` — all tests must pass.
 
 ## Why is it called brek?
 
-**Brek** stands for **B**locking **R**esolution of **E**nvironment **K**eys. TBH, it just sounded cool and was available on NPM 😄.
-
-## Sponsors
-<br>
-<picture>
-    <source srcset="docs/aeroview-white.svg" media="(prefers-color-scheme: dark)">
-    <source srcset="docs/aeroview-black.svg" media="(prefers-color-scheme: light)">
-    <img src="docs/aeroview-black.svg" alt="Logo" height="20">
-</picture>
-<br>
-
-Aeroview is a lightning-fast, developer-friendly, and AI-powered logging IDE. Get started for free at [https://aeroview.io](https://aeroview.io).
-
-Want to sponsor this project? [Reach out](mailto:mhweiner234@gmail.com?subject=I%20want%20to%20sponsor%20brek).
+**Brek** stands for **B**locking **R**esolution of **E**nvironment **K**eys.
 
 ## Other useful libraries
 

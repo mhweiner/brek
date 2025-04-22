@@ -2,6 +2,12 @@
 
 Loaders are custom functions that are called during startup (run-time). This can be used to do anything, such as fetching secrets from AWS Secrets Manager, or any other dynamic runtime operation. They can be Promise/async/await based.
 
+## Available Loaders
+
+- [`awsSecret`](https://github.com/mhweiner/brek-loader-aws-secrets-manager): Fetches a secret from AWS Secrets Manager. Takes `key` and `region` as parameters.
+
+Submit a PR to add your own loaders to this list! 🚀
+
 ## Example
 
 _conf/default.json_
