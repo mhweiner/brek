@@ -2,7 +2,7 @@
   "name": "brek",
   "private": false,
   "version": "0.0.0-autorel",
-  "description": "Brek is a structured, typed config loader for Node.js — ideal for dynamic environments and securely managing secrets like those in AWS Secrets Manager.",
+  "description": "  ",
   "license": "MIT",
   "author": "Marc H. Weiner <mhweiner234@gmail.com> (https://mhweiner.com)",
   "main": "./dist/index.js",

@@ -4,7 +4,7 @@ Loaders are custom functions that are called during startup (run-time). This can
 
 ## Available Loaders
 
-- [`awsSecret`](https://github.com/mhweiner/brek-loader-aws-secrets-manager): Fetches a secret from AWS Secrets Manager. Takes `key` and `region` as parameters.
+- [`awsSecret`](https://github.com/mhweiner/brek-loader-aws-secrets-manager): Fetches a secret from AWS Secrets Manager.
 
 Submit a PR to add your own loaders to this list! 🚀
 
@@ -28,7 +28,7 @@ _brek.loaders.js_
 ```javascript
 module.exports = {
     fetchSecret: async ({key, region}) => {
-        //fetch secret from AWS Secrets Manager
+        //fetch secret from wherever
         return Promise.resolve(`secret_${key}_${region}`);
     },
     add10: (val) => {
