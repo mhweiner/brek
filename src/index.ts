@@ -98,6 +98,7 @@ export async function loadConfig(): Promise<void> {
         const mod = require(BREK_LOADERS_FILE_PATH);
 
         loaders = mod.default || mod;
+        console.log(`Loaded ${Object.keys(loaders).length} loaders from ${BREK_LOADERS_FILE_PATH}.`);
 
     } catch (e: any) {
 
