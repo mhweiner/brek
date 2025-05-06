@@ -173,7 +173,7 @@ To learn more about loaders, see the [Loaders](docs/loaders.md) documentation.
 
 ## API Reference
 
-### `getConfig(): Conf`
+### `getConfig(): Config`
 
 Returns the configuration object.
 
@@ -236,7 +236,7 @@ BREK_DEBUG=1 ts-node src/index.ts
 2. If you're using AWS Lambda, see the [Usage with AWS Lambda](#usage-with-aws-lambda) section.
 3. If the iguration ever gets out of date, you'll need to do one or more of the following:
 
-    - Call `brek write-types` to regenerate the type declaration file and delete the disk cache (`ig.json`)
+    - Call `brek write-types` to regenerate the type declaration file and delete the disk cache (`config.json`)
     - Make sure you're calling `brek load-config` or `loadConfig(): Promise<void>` before app startup
     - Restart your app to clear cache in memory
 
