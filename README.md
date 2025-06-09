@@ -1,11 +1,13 @@
-# brek
+<img src="docs/brek-logo.svg" alt="brek" title="brek">
 
 [![build status](https://github.com/mhweiner/brek/actions/workflows/release.yml/badge.svg)](https://github.com/mhweiner/brek/actions)
 [![SemVer](https://img.shields.io/badge/SemVer-2.0.0-blue)]()
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
-[![AutoRel](https://img.shields.io/badge/v2-AutoRel?label=AutoRel&labelColor=0ab5fc&color=grey&link=https%3A%2F%2Fgithub.com%2Fmhweiner%2Fautorel)](https://github.com/mhweiner/autorel)
+[![AutoRel](https://img.shields.io/badge/%F0%9F%9A%80%20AutoRel-2D4DDE)](https://github.com/mhweiner/autorel)
 
-**brek** is a structured, typed config loader for Node.js — ideal for dynamic environments and securely managing secrets like those in [AWS Secrets Manager](https://github.com/mhweiner/brek-loader-aws-secrets-manager).
+Brek is a structured, typed config loader for Node.js — ideal for dynamic environments and securely managing secrets like those in [AWS Secrets Manager](https://github.com/mhweiner/brek-loader-aws-secrets-manager).
+
+Brek stands for **B**locking **R**esolution of **E**nvironment **K**eys.
 
 _config/default.json_
 ```json
@@ -35,12 +37,12 @@ console.log(baz.jazz); // undefined and Typescript will throw an error at compil
 
 ```
 
----
+## Features
 
-**🔒 Out-of-the-box Typescript support**
+### **🔒 Out-of-the-box Typescript support**
 - Turn your runtime errors into safer compile-time errors! Automatically generated Typescript type definition for configuration object
 
-**😃 Easy-to-use & stable**
+### **😃 Easy-to-use & stable**
 - All settings are in simple, logic free `.json` files.
 - Adds structure and organization to your configuration files
 - Easily see what is being overridden and where
@@ -48,18 +50,16 @@ console.log(baz.jazz); // undefined and Typescript will throw an error at compil
 - Small, modular, and unit-tested codebase written in Typescript.
 - **No dependencies**!
 
-**💪 Flexible & powerful**
+### **💪 Flexible & powerful**
 - Differentiates between concepts such as `environment`, `deployment`, and `user` and provides an out-of-the-box solution with [sensible merge strategy](#configuration-merge-strategy)
 - Provides for [overrides via CLI](#using-clienv-overrides) without polluting the CLI argument namespace
 - Fast. Runtime processing is done once during app initialization only.
 - Put [environment variables](#environment-variables-in-config-files) directly into .json files
 
-**🤖 Dynamic loading**
+### **🤖 Dynamic loading**
 - Great for AWS Secrets Manager, AWS Parameter Store, HashiCorp Vault, or custom dynamic runtime functions
 - Any custom logic lives in [loaders](#loaders), keeping your config files logic-free
 - Provides an easy sharable and reusable plugin interface for sharing or re-use
-
----
 
 ## Table of Contents
 
@@ -79,8 +79,6 @@ console.log(baz.jazz); // undefined and Typescript will throw an error at compil
 - [Why is it called brek?](#why-is-it-called-brek)
 - [Sponsorship](#sponsorship)
 - [Other Useful Libraries](#other-useful-libraries)
-
----
 
 ## Getting Started
 
