@@ -173,13 +173,13 @@ To learn more about loaders, see the [Loaders](docs/loaders.md) documentation.
 
 ### `getConfig(): Config`
 
-Returns the configuration object.
+Returns the configuration object. Lazy loads the configuration files from disk via `loadConfig()` if `config.json` does not exist.
 
 ---
 
 ### `loadConfig(): Promise<void>`
 
-Preloads the configuration. Loads the configuration files from disk, merges them, resolves any loaders, and writes the final configuration to `config.json`. This is not typically called directly, but you can if you want to instead of using the CLI.
+Preloads/generates the configuration. Loads the configuration files from disk, merges them, resolves any loaders, and writes the final configuration to `config.json`. Same as calling `brek load-config` from the CLI.
 
 ## CLI Reference
 
