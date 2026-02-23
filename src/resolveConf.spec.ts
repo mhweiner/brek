@@ -1,4 +1,4 @@
-import {test} from 'hoare';
+import {test} from 'kizu';
 import {resolveConf} from './resolveConf';
 
 test('if no loaders or environment variables present, should return same result back', async (assert) => {

@@ -1,4 +1,4 @@
-import {test} from 'hoare';
+import {test} from 'kizu';
 import {mergeConfs} from './mergeConfs';
 
 test('If only Default is given and no loaders, output should be same as default', (assert) => {
@@ -146,7 +146,6 @@ test('all conf sources should be merged in correct order (with loaders) ', (asse
 
 });
 
-// eslint-disable-next-line max-lines-per-function
 test('properties of loaders should not be merged', (assert) => {
 
     // given

@@ -1,5 +1,4 @@
-/* eslint-disable max-lines-per-function */
-import {test} from 'hoare';
+import {test} from 'kizu';
 import {generateTypeDef, props} from './generateTypeDef';
 
 test('generateTypeDef with a flat configuration object', (assert) => {
