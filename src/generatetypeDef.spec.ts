@@ -24,6 +24,7 @@ declare module "brek" {
 
 });
 
+// eslint-disable-next-line max-lines-per-function
 test('generateTypeDef with a nested configuration object', (assert) => {
 
     const config = {

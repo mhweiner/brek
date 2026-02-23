@@ -26,7 +26,7 @@
   "scripts": {
     "prepare": "npm run build",
     "test": "kizu 'src/**/*.spec.ts'",
-    "lint": "eslint .",
+    "lint": "eslint . --fix",
     "build": "tsc -p tsconfig.build.json",
     "test:int": "BREK_CONFIG_DIR=integration-tests/config BREK_WRITE_DIR=integration-tests/config BREK_LOADERS_FILE_PATH=integration-tests/brek.loaders.js kizu 'integration-tests/**/*.spec.ts'",
     "validate": "npm run build && npm run lint && npm test"
