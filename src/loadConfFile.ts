@@ -18,7 +18,7 @@ export function loadConfFile(parts: string[]): Record<string, any> {
 
         fileContent = readFileSync(file, 'utf-8');
 
-    } catch (e) {
+    } catch {
 
         return {};
 
@@ -28,7 +28,7 @@ export function loadConfFile(parts: string[]): Record<string, any> {
 
         return JSON.parse(fileContent) as Record<string, any>;
 
-    } catch (e) {
+    } catch {
 
         throw new InvalidConf([`${file} is not valid JSON`]);
 

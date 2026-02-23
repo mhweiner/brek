@@ -94,7 +94,7 @@ export async function loadConfig(): Promise<void> {
     try {
 
         // Load the loaders from the provided file path.
-        // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
         const mod = require(BREK_LOADERS_FILE_PATH);
 
         loaders = mod.default || mod;

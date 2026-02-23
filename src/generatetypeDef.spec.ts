@@ -1,5 +1,4 @@
-/* eslint-disable max-lines-per-function */
-import {test} from 'hoare';
+import {test} from 'kizu';
 import {generateTypeDef, props} from './generateTypeDef';
 
 test('generateTypeDef with a flat configuration object', (assert) => {
@@ -25,6 +24,7 @@ declare module "brek" {
 
 });
 
+// eslint-disable-next-line max-lines-per-function
 test('generateTypeDef with a nested configuration object', (assert) => {
 
     const config = {
