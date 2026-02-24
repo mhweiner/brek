@@ -6,7 +6,7 @@ on:
       - next
 permissions:
   id-token: write   # Required for npm trusted publishing (OIDC)
-  contents: read
+  contents: write   # Required for autorel to push release tag (and changelog)
 jobs:
   release:
     name: Release
