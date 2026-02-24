@@ -1,4 +1,4 @@
-import {test} from 'hoare';
+import {test} from 'kizu';
 import {writeTypeDef} from '../src/writeTypeDef';
 import {getConfig, loadConfig} from '../src';
 import {readFileSync, unlinkSync} from 'node:fs';
