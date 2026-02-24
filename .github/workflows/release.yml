@@ -29,6 +29,6 @@ jobs:
       - run: npm run lint
       - run: npm run test
       - run: npm run test:int
-      - run: npx autorel --publish
+      - run: npx autorel@^2
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
