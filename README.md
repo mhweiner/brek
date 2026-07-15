@@ -26,12 +26,12 @@ _blah.ts_
 ```typescript
 import {getConfig} from "brek";
 
-const {foo, baz} = getConfig();
+const {foo, baz, quux} = getConfig();
 
 console.log(foo); // "bar"
 console.log(baz.qux); // 42
-console.log(baz.quux); // "secret_demo"
-console.log(baz.jazz); // undefined and Typescript will throw an error at compile time
+console.log(quux); // "secret_demo"
+console.log(baz.bar); // undefined and Typescript will throw an error at compile time
 
 // Enjoy full autocompletion and type safety! 🚀
 
