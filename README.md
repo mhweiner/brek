@@ -76,6 +76,7 @@ console.log(baz.bar); // undefined and Typescript will throw an error at compile
 - [Debugging](#debugging)
 - [Known Issues](#known-issues)
 - [Support, Feedback, and Contributions](#support-feedback-and-contributions)
+- [Commits & releases](#commits--releases)
 - [Why is it called brek?](#why-is-it-called-brek)
 - [Sponsorship](#sponsorship)
 - [Other Useful Libraries](#other-useful-libraries)
@@ -237,6 +238,10 @@ BREK_DEBUG=1 ts-node src/index.ts
     - Call `brek write-types` to regenerate the type declaration file and delete the disk cache (`config.json`)
     - Make sure you're calling `brek load-config` or `loadConfig(): Promise<void>` before app startup
     - Restart your app to clear cache in memory
+
+## Commits & releases
+
+[AutoRel](https://github.com/mhweiner/autorel). Conventional commits — see the [commit format](https://github.com/mhweiner/autorel/blob/main/docs/commit-format.md).
 
 ## Contributing
 
