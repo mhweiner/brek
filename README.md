@@ -1,4 +1,10 @@
-<img src="docs/brek-logo.svg" alt="brek" title="brek">
+<div align="center">
+  <picture>
+    <source srcset="assets/brek-dark.svg" media="(prefers-color-scheme: dark)" />
+    <source srcset="assets/brek-light.svg" media="(prefers-color-scheme: light)" />
+    <img src="assets/brek-light.svg" height="56" alt="brek" />
+  </picture>
+</div>
 
 [![build status](https://github.com/mhweiner/brek/actions/workflows/release.yml/badge.svg)](https://github.com/mhweiner/brek/actions)
 [![SemVer](https://img.shields.io/badge/SemVer-2.0.0-blue)]()
